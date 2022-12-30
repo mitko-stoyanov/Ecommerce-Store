@@ -36,7 +36,7 @@ class AppUser(AbstractBaseUser):
     )
 
     last_login = models.DateTimeField(
-        auto_now=True,
+        auto_now_add=True,
     )
 
     USERNAME_FIELD = 'email'
