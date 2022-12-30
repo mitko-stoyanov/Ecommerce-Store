@@ -5,4 +5,5 @@ from online_store.accounts.models import AppUser
 
 @admin.register(AppUser)
 class UserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('email', 'name', 'last_login', 'date_joined', 'is_active')
+    readonly_fields = ('password',)
