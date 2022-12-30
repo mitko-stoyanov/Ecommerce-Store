@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from online_store.helpers import BootstrapFormMixin
 
@@ -11,3 +11,7 @@ class UserRegistrationForm(BootstrapFormMixin, UserCreationForm):
     class Meta:
         model = UserModel
         fields = ('name', 'email', 'password1', 'password2')
+
+
+class UserLoginForm(BootstrapFormMixin, AuthenticationForm):
+    pass

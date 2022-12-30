@@ -13,16 +13,14 @@
                         <form action="{% url 'login' %}" method="POST">
                             {% csrf_token %}
 
-                            <div class="row">
-                                <div class="col-lg-12">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-10">
                                     <label class="form-label" for="form3Example3c">Your Email</label>
-                                    {{ form.email }}
+                                    {{ form.username }}
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-10">
                                     <label class="form-label" for="form3Example3c">Your Password</label>
-                                    {{ form.password1 }}
-                                </div>
-                                <div class="col-lg-12">
+                                    {{ form.password}}
                                     <button type="submit" class="site-btn text-center">Sign In</button>
                                 </div>
                             </div>
