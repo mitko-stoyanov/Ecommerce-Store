@@ -144,6 +144,6 @@ AUTH_USER_MODEL = 'accounts.AppUser'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mistoqnow@gmail.com'
-EMAIL_HOST_PASSWORD = 'ugocblaflatgsfpw'
+EMAIL_HOST_PASSWORD = 'lqdwlcesoduobbsi'
 EMAIL_PORT = 587
 PASSWORD_RESET_TIMEOUT = 5000

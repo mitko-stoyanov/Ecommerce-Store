@@ -68,7 +68,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-7">
                     <div class="header__top__left">
-                        <p>Free shipping, 30-day return or refund guarantee.</p>
+                        <p>Free shipping, 30-day return or refund guarantee. Hello, {{ user.name }}</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-5">
@@ -98,7 +98,7 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         <li class="active"><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
+                        <li><a href="{% url 'store' %}">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="{% url 'about' %}">About Us</a></li>

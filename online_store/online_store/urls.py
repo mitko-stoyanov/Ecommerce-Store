@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('online_store.main.urls')),
     path('authentication/', include('online_store.accounts.urls')),
+    path('store/', include('online_store.store.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

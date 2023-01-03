@@ -12,6 +12,7 @@ from django.views.generic import CreateView
 
 from online_store.accounts.forms import UserRegistrationForm, UserLoginForm
 from online_store.accounts.models import AppUser
+from online_store.accounts.tokens import AccActivateToken, token_generator
 from online_store.helpers import BootstrapFormMixin
 
 
@@ -29,7 +30,7 @@ class UserRegistrationView(CreateView):
             'user': user,
             'domain': current_site.domain,
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': default_token_generator.make_token(user),
+            'token': token_generator.make_token(user),
         })
 
         to_email = user.email
@@ -56,7 +57,7 @@ def activate(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    if user is not None and default_token_generator.check_token(user, token):
+    if user is not None and token_generator.check_token(user, token):
         user.is_active = True
         user.save()
         return redirect('about')
