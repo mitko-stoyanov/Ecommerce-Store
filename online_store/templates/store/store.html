@@ -9,10 +9,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Shop</h4>
+                        {% if 'search' in request.path %}
+                            <h4>Search</h4>
+                        {% else %}
+                            <h4>Shop</h4>
+                        {% endif %}
                         <div class="breadcrumb__links">
-                            <a href="{% url 'home' %}">Home</a>
-                            <span>Shop</span>
+                            {% if 'search' in request.path %}
+                                <a href="{% url 'store' %}">Shop</a>
+                                <span>Search</span>
+                            {% else %}
+                                <a href="{% url 'home' %}">Home</a>
+                                <span>Shop</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -28,8 +37,8 @@
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form action="{% url 'search' %}" method="GET">
+                                <input type="text" placeholder="Search..." name="keyword">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
@@ -45,7 +54,8 @@
                                                 <ul class="nice-scroll">
                                                     <li><a href="{% url 'store' %}">Всички ({{ total_count }})</a></li>
                                                     {% for category in categories %}
-                                                        <li><a href="{{ category.slug }}">{{ category.category_name }}
+                                                        <li>
+                                                            <a href="{{ category.get_url }}">{{ category.category_name }}
                                                             </a></li>
                                                     {% endfor %}
                                                 </ul>
@@ -189,7 +199,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Found <b>{{ result_count }}</b> results</p>
+                                    <p>Found <b>{{ products.count }}</b> results</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -205,57 +215,66 @@
                         </div>
                     </div>
                     <div class="row">
-                        {% for product in products %}
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
-                                        <ul class="product__hover">
-                                            <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="{% static 'img/icon/compare.png' %}" alt="">
-                                                <span>Compare</span></a>
-                                            </li>
-                                            <li><a href="#"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6>{{ product.product_name }}</h6>
-                                        <a href="#" class="add-cart">View Product</a>
-                                        <div class="rating">
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
+                        {% if products %}
+                            {% for product in products %}
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
+                                            <ul class="product__hover">
+                                                <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                                                </li>
+                                                <li><a href="#"><img src="{% static 'img/icon/compare.png' %}" alt="">
+                                                    <span>Compare</span></a>
+                                                </li>
+                                                <li><a href="#"><img src="{% static 'img/icon/search.png' %}"
+                                                                     alt=""></a>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <h5>${{ product.price | floatformat:2 }}</h5>
-                                        <div class="product__color__select">
-                                            <label for="pc-4">
-                                                <input type="radio" id="pc-4">
-                                            </label>
-                                            <label class="active black" for="pc-5">
-                                                <input type="radio" id="pc-5">
-                                            </label>
-                                            <label class="grey" for="pc-6">
-                                                <input type="radio" id="pc-6">
-                                            </label>
+                                        <div class="product__item__text">
+                                            <h6>{{ product.product_name }}</h6>
+                                            <a href="#" class="add-cart">View Product</a>
+                                            <div class="rating">
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <h5>${{ product.price | floatformat:2 }}</h5>
+                                            <div class="product__color__select">
+                                                <label for="pc-4">
+                                                    <input type="radio" id="pc-4">
+                                                </label>
+                                                <label class="active black" for="pc-5">
+                                                    <input type="radio" id="pc-5">
+                                                </label>
+                                                <label class="grey" for="pc-6">
+                                                    <input type="radio" id="pc-6">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            <h3 class="centered">No Products Found</h3>
+                        {% endif %}
 
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
-                            </div>
+                            {% if not 'search' in request.path %}
+                                <div class="product__pagination">
+                                    {% if page_obj.has_previous %}
+                                        <a href="?page={{ page_obj.previous_page_number }}">←</a>
+                                    {% endif %}
+                                    <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</b>
+                                    {% if page_obj.has_next %}
+                                        <a href="?page={{ page_obj.next_page_number }}">→</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

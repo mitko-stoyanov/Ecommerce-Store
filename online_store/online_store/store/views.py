@@ -11,7 +11,7 @@ class StorePageView(ListView):
     model = Product
     template_name = 'store/store.html'
     context_object_name = 'products'
-    # paginate_by = 1
+    paginate_by = 1
 
     def get_queryset(self):
         if self.kwargs and self.kwargs['category_slug'] is not None:
@@ -31,6 +31,8 @@ class StorePageView(ListView):
 
 
 class SearchPageView(StorePageView):
+    paginate_by = 0
+
     def get_queryset(self):
         if 'keyword' in self.request.GET:
             keyword = self.request.GET['keyword']
