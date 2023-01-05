@@ -2,9 +2,21 @@ from itertools import chain
 
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 
 from online_store.store.models import Product, Category
+
+
+class ShowDetails(DetailView):
+    model = Product
+    template_name = 'store/product_details.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super(ShowDetails, self).get_context_data(**kwargs)
+        # way to access current object(variations in the future)
+        context['test_context'] = self.get_object()
+        return context
 
 
 class StorePageView(ListView):
