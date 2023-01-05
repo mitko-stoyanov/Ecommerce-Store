@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from online_store.store.models import Product
+
 
 class Cart(models.Model):
     User = get_user_model()
@@ -17,3 +19,22 @@ class Cart(models.Model):
 
     def __str__(self):
         return f'Owner: {self.owner.name}'
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+    )
+
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+    )
+
+    quantity = models.IntegerField()
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
