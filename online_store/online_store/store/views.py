@@ -16,6 +16,8 @@ class ShowDetails(DetailView):
         context = super(ShowDetails, self).get_context_data(**kwargs)
         # way to access current object(variations in the future)
         context['test_context'] = self.get_object()
+        #way to acces current user cart
+        # context['test_context'] = self.request.user.cart
         return context
 
 
