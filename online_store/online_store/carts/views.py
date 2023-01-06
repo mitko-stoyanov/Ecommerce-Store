@@ -1,10 +1,30 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect
+from django.views.generic import ListView
 
 from online_store.carts.models import Cart, CartItem
 from online_store.store.models import Product
 
 
-# Create your views here.
+class CartListView(ListView):
+    model = CartItem
+    template_name = 'store/cart.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
+        return products
+
+    def get_context_data(self, **kwargs):
+        total = 0
+        products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
+        for cart_item in products:
+            total += (cart_item.product.price * cart_item.quantity)
+
+        context = super(CartListView, self).get_context_data(**kwargs)
+        context['total'] = total
+        return context
+
+
 def add_to_cart(request, pk):
     product = Product.objects.get(pk=pk)
     try:
@@ -25,4 +45,4 @@ def add_to_cart(request, pk):
             cart=cart
         )
         cart_item.save()
-    return redirect('home')
+    return redirect('cart_page')

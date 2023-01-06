@@ -1,8 +1,9 @@
 from django.urls import path
 
 from . import views
-from online_store.store.views import StorePageView, SearchPageView, ShowDetails
+from .views import CartListView
 
 urlpatterns = (
-    path('add/<int:pk>/', views.add_to_cart, name='cart'),
+    path('', CartListView.as_view(), name='cart_page'),
+    path('add/<int:pk>/', views.add_to_cart, name='add_cart'),
 )
