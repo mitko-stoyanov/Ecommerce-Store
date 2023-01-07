@@ -1,5 +1,6 @@
-from django.shortcuts import redirect
-from django.views.generic import ListView
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, FormView
 
 from online_store.carts.models import Cart, CartItem
 from online_store.store.models import Product
@@ -15,13 +16,12 @@ class CartListView(ListView):
         return products
 
     def get_context_data(self, **kwargs):
-        total = 0
+        total_without_disc = 0
         products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
         for cart_item in products:
-            total += (cart_item.product.price * cart_item.quantity)
-
+            total_without_disc += (cart_item.product.price * cart_item.quantity)
         context = super(CartListView, self).get_context_data(**kwargs)
-        context['total'] = total
+        context['total_without_disc'] = total_without_disc
         return context
 
 
@@ -45,4 +45,29 @@ def add_to_cart(request, pk):
             cart=cart
         )
         cart_item.save()
+    return redirect('cart_page')
+
+
+def remove_cart_item(request, product_id, cart_item_id):
+    cart = Cart.objects.get(owner__exact=request.user)
+    product = get_object_or_404(Product, id=product_id)
+    cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
+    cart_item.delete()
+    return redirect('cart_page')
+
+
+def remove_cart(request, product_id, cart_item_id):
+    cart = Cart.objects.get(owner__exact=request.user)
+    product = get_object_or_404(Product, id=product_id)
+
+    try:
+        cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    except:
+        pass
+
     return redirect('cart_page')

@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from online_store.store.models import Product
@@ -41,3 +42,24 @@ class CartItem(models.Model):
     def sub_total(self):
         return self.product.price * self.quantity
 
+
+class Discount(models.Model):
+    code = models.CharField(
+        max_length=20,
+        unique=True
+    )
+
+    owner = models.CharField(
+        max_length=50,
+    )
+
+    discount_percent = models.IntegerField(
+        validators=(
+            MaxValueValidator(100),
+            MinValueValidator(1),
+        ),
+    )
+
+    times_used = models.IntegerField(
+        default=0,
+    )
