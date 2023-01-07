@@ -14,9 +14,10 @@ class ShowDetails(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ShowDetails, self).get_context_data(**kwargs)
-        # way to access current object(variations in the future)
-        context['test_context'] = self.get_object()
-        #way to acces current user cart
+        related_products = Product.objects.filter(category=self.get_object().category).exclude(pk=self.get_object().pk)
+        # related_products = Product.objects.filter(category__slug__iexact='trausers')
+        context['related_products'] = related_products
+        # way to access current user cart
         # context['test_context'] = self.request.user.cart
         return context
 
@@ -34,7 +35,7 @@ class StorePageView(ListView):
         else:
             products = Product.objects.filter(is_available=True)
 
-        return products
+        return products.order_by('-pk')
 
     def get_context_data(self, **kwargs):
         context = super(StorePageView, self).get_context_data(**kwargs)
