@@ -15,10 +15,7 @@ class ShowDetails(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ShowDetails, self).get_context_data(**kwargs)
         related_products = Product.objects.filter(category=self.get_object().category).exclude(pk=self.get_object().pk)
-        # related_products = Product.objects.filter(category__slug__iexact='trausers')
         context['related_products'] = related_products
-        # way to access current user cart
-        # context['test_context'] = self.request.user.cart
         return context
 
 

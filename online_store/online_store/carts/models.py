@@ -4,6 +4,8 @@ from django.db import models
 
 from online_store.store.models import Product
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 class Cart(models.Model):
     User = get_user_model()

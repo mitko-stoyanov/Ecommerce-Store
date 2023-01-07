@@ -110,7 +110,7 @@
                                 <li>Discount <span>$ 169.50</span></li>
                                 <li>Total <span>$ {{ total_without_disc | floatformat:2 }}</span></li>
                             </ul>
-                            <a href="#" class="primary-btn">Proceed to checkout</a>
+                            <a href="{% url 'place_order' %}" class="primary-btn">Proceed to checkout</a>
                         </div>
                     </div>
                 </div>

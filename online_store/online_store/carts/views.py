@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, CreateView, TemplateView
 
 from online_store.carts.models import Cart, CartItem
 from online_store.store.models import Product
@@ -18,8 +18,7 @@ class CartListView(ListView):
     def get_context_data(self, **kwargs):
         total_without_disc = 0
         products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
-        for cart_item in products:
-            total_without_disc += (cart_item.product.price * cart_item.quantity)
+        total_without_disc = sum([(c.product.price * c.quantity) for c in products])
         context = super(CartListView, self).get_context_data(**kwargs)
         context['total_without_disc'] = total_without_disc
         return context
