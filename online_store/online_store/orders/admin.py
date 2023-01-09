@@ -10,7 +10,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('email', 'phone', 'city', 'address', 'order_number', 'order_total', 'created_at')
 
 
 @admin.register(OrderProduct)
