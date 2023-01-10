@@ -11,6 +11,7 @@ class PaymentAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('email', 'phone', 'city', 'address', 'order_number', 'order_total', 'created_at')
+    search_fields = ('order_number',)
 
 
 @admin.register(OrderProduct)

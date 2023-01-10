@@ -2,7 +2,7 @@ import datetime
 
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
@@ -23,7 +23,9 @@ class PlaceOrderView(CreateView):
     form_class = OrderForm
     model = Order
     template_name = 'store/checkout.html'
-    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        return f'/orders/order_preview/{self.object.pk}'
 
     def form_valid(self, form):
         current_order = form.save(commit=False)
@@ -41,3 +43,18 @@ class PlaceOrderView(CreateView):
         current_order.save()
 
         return super(PlaceOrderView, self).form_valid(form)
+
+
+class OrderPreview(TemplateView):
+    template_name = 'store/order_preview.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderPreview, self).get_context_data(**kwargs)
+        order_pk = kwargs.get('pk')
+        cart_items = CartItem.objects.filter(cart__owner=self.request.user)
+
+        if order_pk:
+            current_order = Order.objects.get(pk=order_pk)
+            context['order'] = current_order
+            context['cart_items'] = cart_items
+        return context
