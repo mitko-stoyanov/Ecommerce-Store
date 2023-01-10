@@ -1,12 +1,12 @@
 import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
-from online_store.orders.models import Order
+from online_store.orders.models import Order, OrderProduct
 
 
 def make_order_num():
@@ -58,3 +58,20 @@ class OrderPreview(TemplateView):
             context['order'] = current_order
             context['cart_items'] = cart_items
         return context
+
+
+def move_products(request, pk):
+    cart_items = CartItem.objects.filter(cart__owner=request.user)
+    order = Order.objects.get(user=request.user, is_ordered=False, pk=pk)
+
+    for item in cart_items:
+        ordered_product = OrderProduct()
+        ordered_product.order_id = order.id
+        ordered_product.user_id = request.user.id
+        ordered_product.product_id = item.product_id
+        ordered_product.quantity = item.quantity
+        ordered_product.product_price = item.product.price
+        ordered_product.ordered = True
+        ordered_product.save()
+
+    return redirect('home')

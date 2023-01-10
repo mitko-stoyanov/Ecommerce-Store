@@ -4,16 +4,6 @@ from online_store.accounts.models import AppUser
 from online_store.store.models import Product
 
 
-class Payment(models.Model):
-    user = models.ForeignKey(AppUser, on_delete=models.CASCADE, )
-    payment_id = models.CharField(max_length=100, )
-    status = models.CharField(max_length=100, )
-    created_at = models.DateTimeField(auto_now_add=True, )
-
-    def __str__(self):
-        return self.payment_id
-
-
 class Order(models.Model):
     STATUS = (
         ('Нова', 'Нова'),
@@ -23,7 +13,6 @@ class Order(models.Model):
     )
 
     user = models.ForeignKey(AppUser, on_delete=models.SET_NULL, null=True)
-    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True, )
     order_number = models.CharField(max_length=20, )
     first_name = models.CharField(max_length=50, )
     last_name = models.CharField(max_length=50, )
@@ -48,7 +37,6 @@ class Order(models.Model):
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
