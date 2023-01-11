@@ -103,4 +103,23 @@ def move_products(request, pk):
     send_email = EmailMessage(subject, message, to=[to_email])
     send_email.send()
 
-    return redirect('home')
+    return redirect('complete', pk=order.pk)
+
+
+class OrderCompleteView(TemplateView):
+    template_name = 'orders/order_complete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        order_pk = self.kwargs['pk']
+        order = Order.objects.get(pk=order_pk)
+        ordered_products = OrderProduct.objects.filter(order=order, user=self.request.user)
+
+        context['order'] = order
+        context['ordered_products'] = ordered_products
+
+        return context
+
+
+
