@@ -97,19 +97,19 @@
             <div class="col-lg-6 col-md-6">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
-                        <li class="{% if request.resolver_match.url_name == 'store' %}active{% endif %}"><a href="{% url 'store' %}">Shop</a></li>
-                        <li><a href="#">Pages</a>
+                        <li><a href="{% url 'home' %}">Начало</a></li>
+                        <li><a href="{% url 'store' %}">Магазин</a></li>
+                        <li><a href="#">Страници</a>
                             <ul class="dropdown">
-                                <li {% if request.resolver_match.url_name == 'about' %}active{% endif %}><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'about' %}">За Нас</a></li>
                                 <li><a href="{% url 'cart_page' %}">Shop Details</a></li>
                                 <li><a href="./shopping-cart.html">Shopping Cart</a></li>
                                 <li><a href="./checkout.html">Check Out</a></li>
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contacts</a></li>
+                        <li><a href="./blog.html">Блог</a></li>
+                        <li><a href="./contact.html">Контакти</a></li>
                     </ul>
                 </nav>
             </div>
@@ -118,7 +118,7 @@
                     <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
                     <a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
                     <a href="{% url 'cart_page' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>{{ cart_count }}</span></a>
-                    <div class="price">${{ total | floatformat:2 }}</div>
+                    <a href="{% url 'cart_page' %}"><div class="price">${{ total | floatformat:2 }}</div></a>
                 </div>
             </div>
         </div>

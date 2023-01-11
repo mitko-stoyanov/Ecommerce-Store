@@ -51,19 +51,22 @@
                                 {% for cart_item in products %}
                                     <tr>
                                         <td class="product__cart__item">
-                                            <div class="product__cart__item__pic">
-                                                <img src="{% static 'img/shopping-cart/cart-1.jpg' %}" alt="">
-                                            </div>
-                                            <div class="product__cart__item__text pt-0">
-                                                <h6 class="mb-0 mt-0">{{ cart_item.product.product_name }}</h6>
-                                                {% if cart_item.variations.all %}
-                                                    {% for item in cart_item.variations.all %}
-                                                        <span class="mt-1">{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }}</span>
-                                                        <br>
-                                                    {% endfor %}
-                                                {% endif %}
-                                                <h5>${{ cart_item.product.price | floatformat:2 }}</h5>
-                                            </div>
+                                            {#                                            <div class="product__cart__item__pic">#}
+                                            {#                                                <img src="{{ cart_item.product.image.url }}" alt="">#}
+                                            {#                                            </div>#}
+                                            <a href="{% url 'product_details' cart_item.product.pk %}">
+                                                <div class="product__cart__item__text pt-0">
+                                                    <h5
+                                                            class="mb-0 mt-0">{{ cart_item.product.product_name }}</h5>
+                                                    {% if cart_item.variations.all %}
+                                                        {% for item in cart_item.variations.all %}
+                                                            <span class="mt-1 text-dark">{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }}</span>
+                                                            <br>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <h6>${{ cart_item.product.price | floatformat:2 }}</h6>
+                                                </div>
+                                            </a>
                                         </td>
                                         <td>
                                             <div class="quantity">

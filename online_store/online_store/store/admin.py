@@ -12,6 +12,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'slug')
 
 
+class VariationInline(admin.TabularInline):
+    model = Variation
+    extra = 5
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {
@@ -19,6 +24,7 @@ class ProductAdmin(admin.ModelAdmin):
     }
 
     list_display = ('product_name', 'price', 'stock', 'category', 'modified_date', 'is_available')
+    inlines = [VariationInline]
 
 
 @admin.register(Variation)

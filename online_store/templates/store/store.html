@@ -9,17 +9,17 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
                         {% if 'search' in request.path %}
-                            <h4>Search</h4>
+                            <h4>Търси</h4>
                         {% else %}
-                            <h4>Shop</h4>
+                            <h4>Магазин</h4>
                         {% endif %}
                         <div class="breadcrumb__links">
                             {% if 'search' in request.path %}
-                                <a href="{% url 'store' %}">Shop</a>
-                                <span>Search</span>
+                                <a href="{% url 'store' %}">Магазин</a>
+                                <span>Търси</span>
                             {% else %}
-                                <a href="{% url 'home' %}">Home</a>
-                                <span>Shop</span>
+                                <a href="{% url 'home' %}">Начало</a>
+                                <span>Магазин</span>
                             {% endif %}
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
                             <form action="{% url 'search' %}" method="GET">
-                                <input type="text" placeholder="Search..." name="keyword">
+                                <input type="text" placeholder="Търси..." name="keyword">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseOne">Categories</a>
+                                        <a data-toggle="collapse" data-target="#collapseOne">Категории</a>
                                     </div>
                                     <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">Branding</a>
+                                        <a data-toggle="collapse" data-target="#collapseTwo">Бранд</a>
                                     </div>
                                     <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                        <a data-toggle="collapse" data-target="#collapseThree">Цена</a>
                                     </div>
                                     <div id="collapseThree" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">Size</a>
+                                        <a data-toggle="collapse" data-target="#collapseFour">Размер</a>
                                     </div>
                                     <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Colors</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">Цвят</a>
                                     </div>
                                     <div id="collapseFive" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                        <a data-toggle="collapse" data-target="#collapseSix">Таг</a>
                                     </div>
                                     <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -198,14 +198,18 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Found <b>{{ products.count }}</b> results</p>
+                                    {% if products %}
+                                        <p>Намерени <b>{{ products.count }}</b> резултат/а</p>
+                                    {% else %}
+                                        <p>Намерени <b>0</b> резултата</p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
+                                    <p>Сортирай по цена:</p>
                                     <select>
-                                        <option value="">Low To High</option>
+                                        <option value="">ниска към висока</option>
                                         <option value="">$0 - $55</option>
                                         <option value="">$55 - $100</option>
                                     </select>
@@ -232,7 +236,8 @@
                                         </div>
                                         <div class="product__item__text">
                                             <h6>{{ product.product_name }}</h6>
-                                            <a href="{% url 'product_details' product.pk %}" class="add-cart">View Product</a>
+                                            <a href="{% url 'product_details' product.pk %}" class="add-cart">View
+                                                Product</a>
                                             <div class="rating">
                                                 <i class="fa fa-star-o"></i>
                                                 <i class="fa fa-star-o"></i>
@@ -240,7 +245,7 @@
                                                 <i class="fa fa-star-o"></i>
                                                 <i class="fa fa-star-o"></i>
                                             </div>
-                                            <h5>${{ product.price | floatformat:2 }}</h5>
+                                            <h5>{{ product.price | floatformat:2 }} лв.</h5>
                                             <div class="product__color__select">
                                                 <label for="pc-4">
                                                     <input type="radio" id="pc-4">
@@ -257,22 +262,28 @@
                                 </div>
                             {% endfor %}
                         {% else %}
-                            <h3 class="centered">No Products Found</h3>
+                            {% if 'search' in request.path %}
+                                <h3 class="centered  mt-4">Няма намерени продукти. Опитайте с друга ключова дума.</h3>
+                            {% else %}
+                                <h3 class="centered  mt-4">Все още няма добавени продукти в магазина.</h3>
+                            {% endif %}
                         {% endif %}
 
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             {% if not 'search' in request.path %}
-                                <div class="product__pagination">
-                                    {% if page_obj.has_previous %}
-                                        <a href="?page={{ page_obj.previous_page_number }}">←</a>
-                                    {% endif %}
-                                    <b>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</b>
-                                    {% if page_obj.has_next %}
-                                        <a href="?page={{ page_obj.next_page_number }}">→</a>
-                                    {% endif %}
-                                </div>
+                                {% if products %}
+                                    <div class="product__pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{ page_obj.previous_page_number }}">←</a>
+                                        {% endif %}
+                                        <b>Страница {{ page_obj.number }} от {{ page_obj.paginator.num_pages }}.</b>
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}">→</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>

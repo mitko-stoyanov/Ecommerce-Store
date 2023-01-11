@@ -9,9 +9,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__breadcrumb">
-                            <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
-                            <span>Product Details</span>
+                            <a href="{% url 'home' %}">Начало</a>
+                            <a href="{% url 'store' %}">Магазин</a>
+                            <span>Детайли за продукта</span>
                             {{ test_context }}
                         </div>
                     </div>
@@ -22,14 +22,14 @@
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
                                     <div class="product__thumb__pic set-bg"
-                                         data-setbg="{% static 'img/shop-details/thumb-1.png' %}">
+                                         data-setbg="{{ product.image.url }}">
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
                                     <div class="product__thumb__pic set-bg"
-                                         data-setbg="{% static 'img/shop-details/thumb-2.png' %}">
+                                         data-setbg="{{ product.image.url }}">
                                     </div>
                                 </a>
                             </li>
@@ -40,14 +40,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
-                                    <div class="product__thumb__pic set-bg"
-                                         data-setbg="{% static 'img/shop-details/thumb-4.png' %}">
-                                        <i class="fa fa-play"></i>
-                                    </div>
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-9">
@@ -67,13 +60,6 @@
                                     <img src="{% static 'img/shop-details/product-big.png' %}" alt="">
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabs-4" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{% static 'img/shop-details/product-big-4.png' %}" alt="">
-                                    <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
-                                       class="video-popup"><i class="fa fa-play"></i></a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,9 +77,9 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
-                                <span> - 5 Reviews</span>
+                                <span> - 5 ревюта</span>
                             </div>
-                            <h3>${{ product.price | floatformat:2 }} <span>70.00</span></h3>
+                            <h3>{{ product.price | floatformat:2 }} лв.</h3>
                             <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
                                 cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
                                 with placket.</p>
@@ -103,7 +89,7 @@
                                     {% if product.variation_set.sizes %}
                                         <div class="col-sm-6 d-flex justify-content-end">
 
-                                            <h5 class="d-flex p-2 bd-highlight">Choose size: </h5>
+                                            <h5 class="d-flex p-2 bd-highlight">Избери размер: </h5>
                                             <div class="form-group">
                                                 <select name="size" required>
                                                     <option value="" disabled selected>No selection</option>
@@ -116,7 +102,7 @@
                                     {% endif %}
                                     {% if product.variation_set.colors %}
                                         <div class="col-sm-6 d-flex justify-content-start">
-                                            <h5 class="d-flex p-2 bd-highlight">Choose color: </h5>
+                                            <h5 class="d-flex p-2 bd-highlight">Избери цвят: </h5>
                                             <div class="form-group">
                                                 <select name="color">
                                                     <option value="" disabled selected>No selection</option>
@@ -133,22 +119,21 @@
                                 {% if product.stock == 0 %}
                                     <p class="primary-btn">out of stock</p>
                                 {% else %}
-                                    <button type="submit" class="primary-btn">add to cart</button>
+                                    <button type="submit" class="primary-btn mb-3">добави в количката</button>
+
                                 {% endif %}
                                 <div class="product__details__btns__option">
-                                    <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
-                                    <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+                                    <a href="#"><i class="fa fa-heart"></i> добави в любими</a>
+                                    <a href="#"><i class="fa fa-exchange"></i> добави за сравнение</a>
                                 </div>
                                 {{ form.errors }}
 
                             </form>
-                            <div class="product__details__last__option">
-                                <h5><span>Guaranteed Safe Checkout</span></h5>
-                                <img src="{% static 'img/shop-details/details-payment.png' %}" alt="">
-                                <ul>
-                                    <li><span>ID:</span> {{ product.pk }}</li>
-                                    <li><span>Categories:</span> {{ product.category | capfirst }}</li>
-                                    <li><span>Stock:</span> {{ product.stock }}</li>
+                            <div class="product__details__last__option pt-0">
+                                <ul class="pt-0">
+                                    <li><span>Номер на обявата:</span> {{ product.pk }}</li>
+                                    <li><span>Категория:</span> {{ product.category | capfirst }}</li>
+                                    <li><span>На склад:</span> {{ product.stock }}</li>
                                 </ul>
 
                             </div>
@@ -161,15 +146,15 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-5"
-                                       role="tab">Description</a>
+                                       role="tab">Описание</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Customer
-                                        Previews(5)</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Ревюта на
+                                        клиенти</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Additional
-                                        information</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">Допълнителна
+                                        информация</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -273,7 +258,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="related-title">Related Product</h3>
+                    <h3 class="related-title">Препоръчани продукти</h3>
                 </div>
             </div>
             <div class="row">
