@@ -97,59 +97,50 @@
                             <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
                                 cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
                                 with placket.</p>
-                            <form action="{% url 'add_cart' product.pk %}">
-                                <div class="product__details__option">
-                                    <div class="product__details__option__size">
-                                        <span>Size:</span>
-                                        <label for="xxl">xxl
-                                            <input type="radio" id="xxl">
-                                        </label>
-                                        <label class="active" for="xl">xl
-                                            <input type="radio" id="xl">
-                                        </label>
-                                        <label for="l">l
-                                            <input type="radio" id="l">
-                                        </label>
-                                        <label for="sm">s
-                                            <input type="radio" id="sm">
-                                        </label>
-                                    </div>
-                                    <div class="product__details__option__color">
-                                        <span>Color:</span>
-                                        <label class="c-1" for="sp-1">
-                                            <input type="radio" id="sp-1">
-                                        </label>
-                                        <label class="c-2" for="sp-2">
-                                            <input type="radio" id="sp-2">
-                                        </label>
-                                        <label class="c-3" for="sp-3">
-                                            <input type="radio" id="sp-3">
-                                        </label>
-                                        <label class="c-4" for="sp-4">
-                                            <input type="radio" id="sp-4">
-                                        </label>
-                                        <label class="c-9" for="sp-9">
-                                            <input type="radio" id="sp-9">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="product__details__cart__option">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                    {% if product.stock == 0 %}
-                                        <p class="primary-btn">out of stock</p>
-                                    {% else %}
-                                        <button type="submit" class="primary-btn">add to cart</button>
-                                    {% endif %}
+                            <form action="{% url 'add_cart' product.pk %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {% if product.variation_set.sizes %}
+                                        <div class="col-sm-6 d-flex justify-content-end">
 
+                                            <h5 class="d-flex p-2 bd-highlight">Choose size: </h5>
+                                            <div class="form-group">
+                                                <select name="size" required>
+                                                    <option value="" disabled selected>No selection</option>
+                                                    {% for i in product.variation_set.sizes %}
+                                                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% if product.variation_set.colors %}
+                                        <div class="col-sm-6 d-flex justify-content-start">
+                                            <h5 class="d-flex p-2 bd-highlight">Choose color: </h5>
+                                            <div class="form-group">
+                                                <select name="color">
+                                                    <option value="" disabled selected>No selection</option>
+                                                    {% for i in product.variation_set.colors %}
+                                                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
+
+                                <br>
+                                {% if product.stock == 0 %}
+                                    <p class="primary-btn">out of stock</p>
+                                {% else %}
+                                    <button type="submit" class="primary-btn">add to cart</button>
+                                {% endif %}
                                 <div class="product__details__btns__option">
                                     <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
                                     <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
                                 </div>
+                                {{ form.errors }}
+
                             </form>
                             <div class="product__details__last__option">
                                 <h5><span>Guaranteed Safe Checkout</span></h5>
@@ -291,7 +282,7 @@
                         <div class="product__item">
                             <div class="product__item__pic set-bg"
                                  data-setbg="{{ related_product.image.url }}">
-{#                                <span class="label">New</span>#}
+                                {#                                <span class="label">New</span>#}
                                 <ul class="product__hover">
                                     <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a></li>
                                     <li><a href="#"><img src="{% static 'img/icon/compare.png' %}" alt="">
@@ -301,7 +292,8 @@
                             </div>
                             <div class="product__item__text">
                                 <h6>{{ related_product.product_name }}</h6>
-                                <a href="{% url 'product_details' related_product.pk%}" class="add-cart">View Product</a>
+                                <a href="{% url 'product_details' related_product.pk %}" class="add-cart">View
+                                    Product</a>
                                 <div class="rating">
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>

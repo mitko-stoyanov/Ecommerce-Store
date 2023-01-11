@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>Order notes<span>*</span></p>
+                                <p>Order notes</p>
                                 {{ form.order_note }}
                             </div>
                             {{ form.errors }}
@@ -82,13 +82,16 @@
                                 <ol class="checkout__total__products">
                                     {% for cart_item in products %}
                                         <li>
-                                            ({{ cart_item.quantity }}) {{ cart_item.product.product_name }}<span>$ {{ cart_item.sub_total |floatformat:2 }}</span>
+                                            ({{ cart_item.quantity }}) <a
+                                                href="{% url 'product_details' cart_item.product.pk %}"
+                                                class="text-black-50">{{ cart_item.product.product_name }}</a>
+                                            <span>$ {{ cart_item.sub_total |floatformat:2 }}</span>
                                         </li>
                                     {% endfor %}
 
                                 </ol>
                                 <ul class="checkout__total__all">
-{#                                    <li>Subtotal <span>$750.99</span></li>#}
+                                    {#                                    <li>Subtotal <span>$750.99</span></li>#}
                                     <li>Total <span>${{ total | floatformat:2 }}</span></li>
                                 </ul>
                                 <button type="submit" class="site-btn">PLACE ORDER</button>

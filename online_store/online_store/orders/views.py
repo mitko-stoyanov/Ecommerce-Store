@@ -44,6 +44,11 @@ class PlaceOrderView(CreateView):
 
         return super(PlaceOrderView, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super(PlaceOrderView, self).get_context_data(**kwargs)
+        context['products'] = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
+        return context
+
 
 class OrderPreview(TemplateView):
     template_name = 'store/order_preview.html'

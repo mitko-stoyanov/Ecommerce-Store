@@ -54,8 +54,14 @@
                                             <div class="product__cart__item__pic">
                                                 <img src="{% static 'img/shopping-cart/cart-1.jpg' %}" alt="">
                                             </div>
-                                            <div class="product__cart__item__text">
-                                                <h6>{{ cart_item.product.product_name }}</h6>
+                                            <div class="product__cart__item__text pt-0">
+                                                <h6 class="mb-0 mt-0">{{ cart_item.product.product_name }}</h6>
+                                                {% if cart_item.variations.all %}
+                                                    {% for item in cart_item.variations.all %}
+                                                        <span class="mt-1">{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }}</span>
+                                                        <br>
+                                                    {% endfor %}
+                                                {% endif %}
                                                 <h5>${{ cart_item.product.price | floatformat:2 }}</h5>
                                             </div>
                                         </td>
@@ -68,9 +74,20 @@
                                                     <input style="width: 25%; border: none; text-align: center"
                                                            type="text"
                                                            value="{{ cart_item.quantity }}">
-                                                    <a href="{% url 'add_cart' cart_item.product.pk %}"
-                                                       class="btn btn-light" type="button" id="button-minus"><i
-                                                            class="fa fa-plus"></i></a>
+
+                                                    <form action="{% url 'add_cart' cart_item.product.id %}"
+                                                          method="POST">
+                                                        {% csrf_token %}
+                                                        {% for item in cart_item.variations.all %}
+                                                            <input type="hidden"
+                                                                   name="{{ item.variation_category | lower }}"
+                                                                   value="{{ item.variation_value | capfirst }}">
+
+                                                        {% endfor %}
+                                                        <button type="submit" class="btn btn-light" type="button"
+                                                                id="button-minus"><i
+                                                                class="fa fa-plus"></i></button>
+                                                    </form>
                                                 </div>
 
                                                 <div class="input-group-append">
@@ -107,7 +124,7 @@
                         <div class="cart__total">
                             <h6>Cart total</h6>
                             <ul>
-                                <li>Discount <span>$ 169.50</span></li>
+                                <li>Discount <span>$ 0.00</span></li>
                                 <li>Total <span>$ {{ total_without_disc | floatformat:2 }}</span></li>
                             </ul>
                             <a href="{% url 'place_order' %}" class="primary-btn">Proceed to checkout</a>

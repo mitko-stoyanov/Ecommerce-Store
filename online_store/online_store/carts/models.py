@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from online_store.store.models import Product
+from online_store.store.models import Product, Variation
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -30,6 +30,11 @@ class CartItem(models.Model):
         on_delete=models.CASCADE,
     )
 
+    variations = models.ManyToManyField(
+        Variation,
+        blank=True,
+    )
+
     cart = models.ForeignKey(
         Cart,
         on_delete=models.CASCADE,
@@ -43,6 +48,9 @@ class CartItem(models.Model):
 
     def sub_total(self):
         return self.product.price * self.quantity
+
+    def __unicode__(self):
+        return self.product
 
 
 class Discount(models.Model):
