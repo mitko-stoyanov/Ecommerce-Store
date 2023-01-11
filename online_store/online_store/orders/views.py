@@ -1,12 +1,15 @@
 import datetime
 
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
 from online_store.orders.models import Order, OrderProduct
+from online_store.store.models import Product
 
 
 def make_order_num():
@@ -78,5 +81,26 @@ def move_products(request, pk):
         ordered_product.product_price = item.product.price
         ordered_product.ordered = True
         ordered_product.save()
+
+        cart_item = CartItem.objects.get(id=item.id)
+        product_variation = cart_item.variations.all()
+        ordered_product = OrderProduct.objects.get(id=ordered_product.id)
+        ordered_product.variations.set(product_variation)
+        ordered_product.save()
+
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
+
+    CartItem.objects.filter(cart__owner=request.user).delete()
+
+    subject = 'Thank you for your order'
+    message = render_to_string('orders/order_received_email.html', {
+        'user': request.user,
+        'order': order,
+    })
+    to_email = request.user.email
+    send_email = EmailMessage(subject, message, to=[to_email])
+    send_email.send()
 
     return redirect('home')

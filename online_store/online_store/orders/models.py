@@ -1,7 +1,7 @@
 from django.db import models
 
 from online_store.accounts.models import AppUser
-from online_store.store.models import Product
+from online_store.store.models import Product, Variation
 
 
 class Order(models.Model):
@@ -39,7 +39,7 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
+    variations = models.ManyToManyField(Variation, blank=True)
     quantity = models.IntegerField()
     product_price = models.FloatField()
     ordered = models.BooleanField(default=False)
