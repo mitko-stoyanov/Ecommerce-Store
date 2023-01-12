@@ -1,25 +1,25 @@
-from django.contrib.auth import login, get_user_model
-from django.contrib.auth.tokens import default_token_generator
+from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.utils.encoding import force_bytes, force_str
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 
 from online_store.accounts.forms import UserRegistrationForm, UserLoginForm
-from online_store.accounts.models import AppUser
 from online_store.accounts.tokens import AccActivateToken, token_generator
-from online_store.helpers import BootstrapFormMixin
 
 
-class UserRegistrationView(CreateView):
+class UserRegistrationView(SuccessMessageMixin, CreateView):
     form_class = UserRegistrationForm
     template_name = 'authentication/register.html'
     success_url = reverse_lazy('home')
+    success_message = 'Профилът е създаден успешно. Изпратили сме ви имейл, чрез който да го активирате.'
 
     def form_valid(self, form):
         user = form.save()
@@ -36,7 +36,6 @@ class UserRegistrationView(CreateView):
         to_email = user.email
         send_email = EmailMessage(subject, message, to=[to_email])
         send_email.send()
-
         return super().form_valid(form)
 
 
@@ -60,7 +59,8 @@ def activate(request, uidb64, token):
     if user is not None and token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('about')
+        messages.success(request, 'Успешно активирахте своя акаунт. Може да се логнете с имейл и парола.')
+        return redirect('login')
     else:
         return redirect('register')
 

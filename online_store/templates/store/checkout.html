@@ -32,46 +32,46 @@
                         <div class="col-lg-8 col-md-6">
                             <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
                                 here</a> to enter your code</h6>
-                            <h6 class="checkout__title">Billing Details</h6>
+                            <h6 class="checkout__title">Адрес за доставка</h6>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
+                                        <p>Име<span>*</span></p>
                                         {{ form.first_name }}
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>Last Name<span>*</span></p>
+                                        <p>Фамилия<span>*</span></p>
                                         {{ form.last_name }}
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>Address<span>*</span></p>
+                                <p>Адрес<span>*</span></p>
                                 {{ form.address }}
                             </div>
                             <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
+                                <p>Град<span>*</span></p>
                                 {{ form.city }}
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
+                                        <p>Телефон<span>*</span></p>
                                         {{ form.phone }}
                                     </div>
                                 </div>
                             </div>
                             <div class="checkout__input">
-                                <p>Order notes</p>
+                                <p>Допълнителна информация за доставка</p>
                                 {{ form.order_note }}
                             </div>
                             {{ form.errors }}
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
-                                <h4 class="order__title">Your order</h4>
+                                <h4 class="order__title">Твоята поръчка</h4>
                                 <div class="checkout__order__products">Product <span>Total</span></div>
                                 <ol class="checkout__total__products">
                                     {% for cart_item in products %}
@@ -79,7 +79,7 @@
                                             ({{ cart_item.quantity }}) <a
                                                 href="{% url 'product_details' cart_item.product.pk %}"
                                                 class="text-black-50">{{ cart_item.product.product_name }}</a>
-                                            <span>$ {{ cart_item.sub_total |floatformat:2 }}</span>
+                                            <span>{{ cart_item.sub_total |floatformat:2 }} лв.</span>
                                         </li>
                                     {% endfor %}
 
@@ -88,7 +88,7 @@
                                     {#                                    <li>Subtotal <span>$750.99</span></li>#}
                                     <li>Total <span>${{ total | floatformat:2 }}</span></li>
                                 </ul>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
+                                <button type="submit" class="site-btn">Направи поръчка</button>
                             </div>
                         </div>
                     </div>

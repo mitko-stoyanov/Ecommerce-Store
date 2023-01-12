@@ -3,7 +3,7 @@
 {% block page_content %}
 
     <div class="container" style="margin-top: 50px;">
-        <h2 class="text-center">Order Successful</h2>
+        <h2 class="text-center">Поръчката е направена успешно</h2>
         <br>
 
     </div>
@@ -23,18 +23,18 @@
                                 <div class="invoice-details mt25 d-flex justify-content-between">
                                     <div class="well">
                                         <ul class="list-unstyled mb0 d-inline">
-                                            <li><strong>Order Number:</strong> {{ order.order_number }}</li>
-                                            <li><strong>Order Date:</strong> {{ order.created_at }}</li>
-                                            <li><strong>Status:</strong> {{ order.status }}</li>
+                                            <li><strong>Номер на пратка:</strong> {{ order.order_number }}</li>
+                                            <li><strong>Дата на създаване:</strong> {{ order.created_at }}</li>
+                                            <li><strong>Статус:</strong> {{ order.status }}</li>
 
                                         </ul>
 
                                     </div>
                                     <div class="well">
                                         <ul class="list-unstyled text-right">
-                                            <li><strong>Full Name:</strong> {{ order.full_name }}</li>
-                                            <li><strong>Address:</strong> {{ order.address }}</li>
-                                            <li><strong>City:</strong> {{ order.city }}</li>
+                                            <li><strong>Име:</strong> {{ order.full_name }}</li>
+                                            <li><strong>Адрес:</strong> {{ order.address }}</li>
+                                            <li><strong>Град:</strong> {{ order.city }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -45,9 +45,9 @@
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th class="per70 text-center">Products</th>
-                                                <th class="per5 text-center">Qty</th>
-                                                <th class="per25 text-center">Total</th>
+                                                <th class="per70 text-center">Продукт</th>
+                                                <th class="per5 text-center">Количество</th>
+                                                <th class="per25 text-center">Общо</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -65,7 +65,7 @@
                                                     </td>
                                                     <td class="text-center">{{ item.quantity }}</td>
                                                     <td class="text-center">${{ item.product_price | floatformat:2 }}
-                                                        USD
+                                                        лв.
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -73,18 +73,18 @@
                                             <tfoot>
 
                                             <tr>
-                                                <th colspan="2" class="text-right">Grand Total:</th>
-                                                <th class="text-center">${{ order.order_total }} USD</th>
+                                                <th colspan="2" class="text-right">Крайна цена:</th>
+                                                <th class="text-center">${{ order.order_total }} лв.</th>
                                             </tr>
                                             </tfoot>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="invoice-footer mt25">
-                                    <p class="text-center">Thank you for shopping with us!</p>
+                                    <p class="text-center">Благодаря, че пазарувахте при нас!</p>
                                 </div>
                                 <div class="continue__btn text-center">
-                                    <a href="{% url 'store' %}">Shop more</a>
+                                    <a href="{% url 'store' %}">Към магазина</a>
                                 </div>
                             </div>
                             <!-- col-lg-12 end here -->

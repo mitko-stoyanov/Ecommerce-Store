@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'online_store.carts.context_processors.counter',
+                'online_store.main.context_processors.show_categories',
             ],
         },
     },
