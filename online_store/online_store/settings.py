@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'online_store.store',
     'online_store.carts',
     'online_store.orders',
+    'online_store.contacts',
     'phonenumber_field',
 ]
 

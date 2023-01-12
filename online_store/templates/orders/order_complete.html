@@ -64,7 +64,7 @@
                                                         </p>
                                                     </td>
                                                     <td class="text-center">{{ item.quantity }}</td>
-                                                    <td class="text-center">${{ item.product_price | floatformat:2 }}
+                                                    <td class="text-center">{{ item.product_price | floatformat:2 }}
                                                         лв.
                                                     </td>
                                                 </tr>
@@ -74,7 +74,7 @@
 
                                             <tr>
                                                 <th colspan="2" class="text-right">Крайна цена:</th>
-                                                <th class="text-center">${{ order.order_total }} лв.</th>
+                                                <th class="text-center">{{ order.order_total | floatformat:2}} лв.</th>
                                             </tr>
                                             </tfoot>
                                         </table>

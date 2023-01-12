@@ -1,0 +1,61 @@
+{% extends 'includes/navbar.html' %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!4v1673561921646!6m8!1m7!1sh4OzFHXSICFcL8tfnnRLqA!2m2!1d42.50628421494901!2d27.46776062270834!3f123.68724020716361!4f1.0486988610432633!5f0.7486493814414953"
+                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    </div>
+    <!-- Map End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__text">
+                        <div class="section-title">
+                            <span>Информация</span>
+                            <h2>Свържи се с нас</h2>
+                            <p>Ние сме сайт, който държи на връзката със своите клиенти. За запитване или при проблем не
+                                се колебайте да ни пишете.</p>
+                        </div>
+                        <ul>
+                            <li>
+                                <h4>България</h4>
+                                <p>град Бургас<br> ж-к Братя Миладинови<br> ул. "Шар планина" №36<br/>+359 88-881-8223</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="contact__form">
+                        <form action="{% url 'contact' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ form.email }}
+                                </div>
+                                <div class="col-lg-6">
+                                    {{ form.subject }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form.message }}
+                                    <button type="submit" class="site-btn">Прати съобщение</button>
+                                </div>
+                            </div>
+                            {% if form.errors %}
+                                {{ form.errors }}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+{% endblock %}
