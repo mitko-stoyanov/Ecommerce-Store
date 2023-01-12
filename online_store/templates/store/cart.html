@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Shopping Cart</h4>
+                        <h4>Наличност в количка</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <a href="./shop.html">Shop</a>
-                            <span>Shopping Cart</span>
+                            <a href="{% url 'home' %}">Начало</a>
+                            <a href="{% url 'store' %}">Магазин</a>
+                            <span>Количка</span>
                         </div>
                     </div>
                 </div>
@@ -40,9 +40,9 @@
                             <table>
                                 <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>Продукт</th>
+                                    <th>Количество</th>
+                                    <th>Общо</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -64,7 +64,7 @@
                                                             <br>
                                                         {% endfor %}
                                                     {% endif %}
-                                                    <h6>${{ cart_item.product.price | floatformat:2 }}</h6>
+                                                    <h6>{{ cart_item.product.price | floatformat:2 }} лв.</h6>
                                                 </div>
                                             </a>
                                         </td>
@@ -87,7 +87,7 @@
                                                                    value="{{ item.variation_value | capfirst }}">
 
                                                         {% endfor %}
-                                                        <button type="submit" class="btn btn-light" type="button"
+                                                        <button type="submit" class="btn btn-light"
                                                                 id="button-minus"><i
                                                                 class="fa fa-plus"></i></button>
                                                     </form>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="cart__price">$ {{ cart_item.sub_total | floatformat:2 }}</td>
+                                        <td class="cart__price">{{ cart_item.sub_total | floatformat:2 }} лв.</td>
                                         <td class="cart__close"><a
                                                 href="{% url 'remove_cart_item' cart_item.product.pk cart_item.pk %}"><i
                                                 class="fa fa-close"></i></a></td>
@@ -110,27 +110,27 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="continue__btn">
-                                    <a href="{% url 'store' %}">Continue Shopping</a>
+                                    <a href="{% url 'store' %}">Към магазина</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="cart__discount">
-                            <h6>Discount codes</h6>
+                            <h6>Код за отстъпка</h6>
                             <form action="{% url 'cart_page' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="text" placeholder="Coupon code">
-                                <button type="submit">Apply</button>
+                                <input type="text" placeholder="Промо код">
+                                <button type="submit">Приложи</button>
                             </form>
                         </div>
                         <div class="cart__total">
-                            <h6>Cart total</h6>
+                            <h6>Количка общо</h6>
                             <ul>
-                                <li>Discount <span>$ 0.00</span></li>
-                                <li>Total <span>$ {{ total_without_disc | floatformat:2 }}</span></li>
+                                <li>Отстъпка <span>0.00 лв.</span></li>
+                                <li>Общо <span>{{ total_without_disc | floatformat:2 }}  лв.</span></li>
                             </ul>
-                            <a href="{% url 'place_order' %}" class="primary-btn">Proceed to checkout</a>
+                            <a href="{% url 'place_order' %}" class="primary-btn">Премини към Чекаут</a>
                         </div>
                     </div>
                 </div>

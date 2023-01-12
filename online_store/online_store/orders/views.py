@@ -1,10 +1,10 @@
 import datetime
 
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, DeleteView
 
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
@@ -94,7 +94,7 @@ def move_products(request, pk):
 
     CartItem.objects.filter(cart__owner=request.user).delete()
 
-    subject = 'Thank you for your order'
+    subject = 'Благодарим за направената поръчка'
     message = render_to_string('orders/order_received_email.html', {
         'user': request.user,
         'order': order,
@@ -122,4 +122,6 @@ class OrderCompleteView(TemplateView):
         return context
 
 
-
+class WrongOrderInfoView(DeleteView):
+    model = Order
+    success_url = reverse_lazy('cart_page')

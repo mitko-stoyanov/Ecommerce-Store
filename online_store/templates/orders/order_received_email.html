@@ -1,8 +1,11 @@
 {% autoescape off %}
 
-    Hi {{ user.name }},
+    Здравейте, {{ user.name }},
 
-    Your order has been received.
-    Order number: {{ order.order_number }}
+    Поръчката е направена успешно. При промяна в статуса на поръчката,
+    ще получите имейл. Запазете този имейл, в случай на грешка или
+    нужда от съдействие.
+
+    Номер на пратката: {{ order.order_number }}
 
 {% endautoescape %}

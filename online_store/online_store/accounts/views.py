@@ -25,7 +25,7 @@ class UserRegistrationView(CreateView):
         user = form.save()
 
         current_site = get_current_site(self.request)
-        subject = 'Activate Your Account'
+        subject = 'Активирай своя акаунт в MaleFashion'
         message = render_to_string('authentication/activation_email.html', {
             'user': user,
             'domain': current_site.domain,

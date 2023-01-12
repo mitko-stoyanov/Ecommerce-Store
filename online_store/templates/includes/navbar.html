@@ -49,7 +49,6 @@
         </div>
     </div>
     <div class="offcanvas__nav__option">
-        <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
         <a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
         <a href="#"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>15</span></a>
         <div class="price">$0.00</div>
@@ -66,19 +65,26 @@
     <div class="header__top">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-7">
+                <div class="col-lg-6 col-md-7 p-0">
                     <div class="header__top__left">
-                        <p>Free shipping, 30-day return or refund guarantee. Hello, {{ user.email }}</p>
+                        {% if not user.is_authenticated %}
+                            <p class="w-100">Моля влезте в профилът си за да използвате пълната функционалност на
+                                сайта.</p>
+                        {% else %}
+                            <p>Влезли сте в системата като: {{ user.email }}</p>
+                        {% endif %}
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-5">
                     <div class="header__top__right">
                         <div class="header__top__links">
                             {% if not user.is_authenticated %}
-                                <a href="{% url 'register' %}">Sign Up</a>
+                                <a href="{% url 'register' %}">Регистрация</a>
+                                <a href="{% url 'login' %}">Логване</a>
                             {% else %}
-                                <a href="#">Profile</a>
-                                <a href="{% url 'logout' %}">Logout</a>
+                                <a href="#">Профил</a>
+                                <a href="{% url 'logout' %}">Излизане</a>
                             {% endif %}
 
                         </div>
@@ -114,12 +120,18 @@
                 </nav>
             </div>
             <div class="col-lg-3 col-md-3">
-                <div class="header__nav__option">
-                    <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt=""></a>
-                    <a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
-                    <a href="{% url 'cart_page' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>{{ cart_count }}</span></a>
-                    <a href="{% url 'cart_page' %}"><div class="price">${{ total | floatformat:2 }}</div></a>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="header__nav__option">
+                        <a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                        {% if cart %}
+                            <a href="{% url 'cart_page' %}"><img src="{% static 'img/icon/cart.png' %}" alt="">
+                                <span>{{ cart_count }}</span></a>
+                            <a href="{% url 'cart_page' %}">
+                                <div class="price">{{ total | floatformat:2 }} лв.</div>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="canvas__open"><i class="fa fa-bars"></i></div>
@@ -128,9 +140,9 @@
 <!-- Header Section End -->
 
 {% block page_content %}
-<h1>
-This is page content
-</h1>
+    <h1>
+        This is page content
+    </h1>
 {% endblock %}
 
 

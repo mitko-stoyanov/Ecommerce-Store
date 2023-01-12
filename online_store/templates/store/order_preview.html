@@ -26,27 +26,28 @@
                 <form action="{% url 'make_order' order.pk %}">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
-                            <h3 class="checkout__title">Order Details</h3>
+                            <h3 class="checkout__title">Детайли на поръчката</h3>
                             <div class="card">
                                 <div class="card-header">
-                                    Billing Address
+                                    Информация за доставка
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text mb-1"><b>Full Name: </b>{{ order.full_name }}</p>
-                                    <p class="card-text mb-1"><b>Address: </b>{{ order.address }}</p>
-                                    <p class="card-text mb-1"><b>City: </b>{{ order.city }}</p>
-                                    <p class="card-text mb-1"><b>Phone: </b>{{ order.phone }}</p>
-                                    <p class="card-text mb-1"><b>Order number: </b>{{ order.order_number }}</p>
+                                    <p class="card-text mb-1"><b>Име: </b>{{ order.full_name }}</p>
+                                    <p class="card-text mb-1"><b>Адрес: </b>{{ order.address }}</p>
+                                    <p class="card-text mb-1"><b>Град: </b>{{ order.city }}</p>
+                                    <p class="card-text mb-1"><b>Телефон: </b>{{ order.phone }}</p>
+                                    <p class="card-text mb-1"><b>Номер на поръчка: </b>{{ order.order_number }}</p>
                                     {% if order.order_note %}
-                                        <p class="card-text mb-1"><b>Order note: </b>{{ order.order_note }}</p>
+                                        <p class="card-text mb-1"><b>Допълнителна информация: </b>{{ order.order_note }}
+                                        </p>
                                     {% endif %}
-                                    <p class="card-text mb-1"><b>Total: </b>{{ total |floatformat:2 }}$</p>
+                                    <p class="card-text mb-1"><b>Общо: </b>{{ total |floatformat:2 }}$</p>
                                 </div>
                             </div>
                             <br>
                             <div class="card">
                                 <div class="card-header">
-                                    Review Products
+                                    Поръчани продукти
                                 </div>
                                 <div class="card-body">
 
@@ -54,9 +55,10 @@
                                         <table>
                                             <thead>
                                             <tr>
-                                                <th>Product</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
+                                                <th>Снимка</th>
+                                                <th>Име на продукта</th>
+                                                <th>Количество</th>
+                                                <th>Общо</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -64,16 +66,26 @@
 
                                             {% for cart_item in cart_items %}
                                                 <tr>
-                                                    <td class="product__cart__item">
+                                                    <td class="product__cart__item"
+                                                        style="width: 150px; word-wrap: normal">
                                                         <div class="product__cart__item__pic">
-                                                            <img src="{% static 'img/shopping-cart/cart-1.jpg' %}"
+                                                            <img src="{{ cart_item.product.image.url }}"
                                                                  alt="">
                                                         </div>
+                                                    </td>
+                                                    <td>
                                                         <div class="product__cart__item__text">
                                                             <h6><a class="title text-dark"
                                                                    href="{% url 'product_details' cart_item.product.pk %}">{{ cart_item.product.product_name }}</a>
                                                             </h6>
-                                                            <h5>${{ cart_item.product.price | floatformat:2 }}</h5>
+                                                            {% if cart_item.variations.all %}
+                                                                {% for item in cart_item.variations.all %}
+                                                                    <span class="mt-1 text-dark">{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }}</span>
+                                                                    <br>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            <h5>{{ cart_item.product.price | floatformat:2 }} лв.
+                                                            </h5>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -90,7 +102,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="cart__price">
-                                                        $ {{ cart_item.sub_total | floatformat:2 }}</td>
+                                                        {{ cart_item.sub_total | floatformat:2 }} лв.
+                                                    </td>
 
                                                 </tr>
                                             {% endfor %}
@@ -98,17 +111,23 @@
 
                                         </table>
                                     </div>
-                                        <div class="row d-flex justify-content-center">
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <div class="continue__btn text-center">
-                                                    <button class="site-btn" type="submit">Make an order</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="row d-flex justify-content-center">
+
+                                        <button class="site-btn" type="submit">Направи Поръчка</button>
+
+
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </form>
+                <br>
+                <form action="{% url 'delete_order' order.pk %}" method="POST">
+                    {% csrf_token %}
+                    <div class="col-6 text-center" style="max-width: 67%">
+                        <button type="submit" class="btn btn-danger">Данните са сгрешени</button>
                     </div>
                 </form>
             </div>

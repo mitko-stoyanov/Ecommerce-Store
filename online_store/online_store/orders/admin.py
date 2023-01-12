@@ -11,7 +11,8 @@ class OrderProductInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('email', 'phone', 'city', 'address', 'order_number', 'order_total', 'created_at')
+    list_display = ('order_number', 'user', 'phone', 'city', 'address', 'order_total', 'created_at', 'status')
+    list_editable = ('status',)
     search_fields = ('order_number', 'email', 'phone',)
     inlines = [OrderProductInline]
 

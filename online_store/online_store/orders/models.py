@@ -17,7 +17,6 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50, )
     last_name = models.CharField(max_length=50, )
     phone = models.CharField(max_length=13, )
-    email = models.EmailField(max_length=50, )
     address = models.CharField(max_length=50, )
     city = models.CharField(max_length=50, )
     order_note = models.CharField(max_length=100, blank=True, )

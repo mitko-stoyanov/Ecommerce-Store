@@ -15,12 +15,14 @@ def counter(request):
             for cart_item in cart_items:
                 cart_count += cart_item.quantity
                 total += cart_item.product.price * cart_item.quantity
-        except Cart.DoesNotExist:
+        except:
             cart_count = 0
             total = 0
+            cart = None
 
     result = {
         'cart_count': cart_count,
-        'total': total
+        'total': total,
+        'cart': cart
     }
     return result
