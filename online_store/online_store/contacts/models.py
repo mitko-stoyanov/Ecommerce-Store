@@ -17,3 +17,7 @@ class Contact(models.Model):
     message = models.TextField(
         max_length=450,
     )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )

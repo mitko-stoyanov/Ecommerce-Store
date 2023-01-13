@@ -8,4 +8,4 @@ from online_store.contacts.models import Contact
 
 @admin.register(Contact)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('email', 'subject', 'message',)
+    list_display = ('email', 'subject', 'message', 'created_at',)

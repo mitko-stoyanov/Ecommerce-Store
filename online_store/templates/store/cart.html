@@ -24,11 +24,11 @@
     <!-- Shopping Cart Section Begin -->
     {% if not products %}
         <br>
-        <h2 class="text-center">Your shopping cart is empty</h2>
+        <h2 class="text-center">Количката ви е празна. Моля добавете продукт и той ще се визуализира тук.</h2>
         <br>
 
         <div class="continue__btn text-center">
-            <a href="{% url 'store' %}">Continue Shopping</a>
+            <a href="{% url 'store' %}">Продължете с пазаруването</a>
         </div>
         <br>
     {% else %}

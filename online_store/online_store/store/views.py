@@ -15,6 +15,7 @@ class ShowDetails(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ShowDetails, self).get_context_data(**kwargs)
         related_products = Product.objects.filter(category=self.get_object().category).exclude(pk=self.get_object().pk)
+        context['category'] = self.get_object().category
         context['related_products'] = related_products
         return context
 

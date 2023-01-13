@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -81,6 +82,7 @@ def add_to_cart(request, pk):
             cart_item.variations.clear()
             cart_item.variations.add(*product_variation)
         cart_item.save()
+
     return redirect('cart_page')
 
 

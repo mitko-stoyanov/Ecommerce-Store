@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
@@ -52,7 +53,9 @@ class Product(models.Model):
         upload_to='photos/products',
     )
 
-    stock = models.IntegerField()
+    stock = models.IntegerField(
+        validators=(MinValueValidator(0),),
+    )
 
     is_available = models.BooleanField(
         default=True,

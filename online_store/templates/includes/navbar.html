@@ -81,7 +81,7 @@
                                 <a href="{% url 'register' %}">Регистрация</a>
                                 <a href="{% url 'login' %}">Логване</a>
                             {% else %}
-                                <a href="#">Профил</a>
+                                <a href="{% url 'profile' %}">Профил</a>
                                 <a href="{% url 'logout' %}">Излизане</a>
                             {% endif %}
 

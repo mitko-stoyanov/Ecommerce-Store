@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 
 from online_store.accounts.models import AppUser
 from online_store.carts.models import Cart
+from online_store.orders.models import Order, OrderProduct
 from online_store.store.models import Product
 
 
@@ -41,4 +42,18 @@ class AboutPageView(TemplateView):
             'products_count': products,
         }
 
+        return context
+
+
+class ProfilePageView(TemplateView):
+    template_name = 'profile/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        orders = Order.objects.filter(user=user)
+
+        context['user'] = user
+        context['orders'] = orders
         return context
