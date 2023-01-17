@@ -1,15 +1,7 @@
 {% extends 'includes/navbar.html' %}
 {% load static %}
 {% block page_content %}
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-info alert-dismissible fade show container d-flex align-items-center justify-content-center">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <p class="mb-0"><strong>Информация!</strong> {{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+    {% include 'includes/alerts.html' %}
     <!-- Hero Section Begin -->
     <section class="hero">
         <div class="hero__slider owl-carousel">
@@ -218,7 +210,7 @@
                         <div class="blog__item__text">
                             <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> 12 Януари 2023</span>
                             <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
+                            <a href="#">Прочети повече</a>
                         </div>
                     </div>
                 </div>
@@ -228,7 +220,7 @@
                         <div class="blog__item__text">
                             <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> 8 Януари 2023</span>
                             <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Read More</a>
+                            <a href="#">Прочети повече</a>
                         </div>
                     </div>
                 </div>

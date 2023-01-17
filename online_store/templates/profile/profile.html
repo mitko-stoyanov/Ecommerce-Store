@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block page_content %}
-
     <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
@@ -20,141 +19,290 @@
     </section>
 
     <div class="container emp-profile mt-5 mb-5">
-        <form method="post">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
-                        <img src="{% static 'img/custom/user-g42eaf5fa5_640(1)(1).png' %}"
-                             alt=""/>
-                    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="{% static 'img/custom/user-g42eaf5fa5_640(1)(1).png' %}"
+                         alt=""/>
                 </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                        <h4>
-                            Данни за акаунта
-                        </h4>
-                        <br>
-                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                   aria-controls="home" aria-selected="true">За теб</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#profile"
-                                   role="tab"
-                                   aria-controls="profile" aria-selected="false">Активни поръчки</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-                        <p>WORK LINK</p>
-                        <a href="">Редактиране на профила</a><br/>
-                        <a href="">Промяна на парола</a><br/>
-                        <br>
-                    </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h4>
+                        Данни за акаунта
+                    </h4>
+                    <br>
+                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#home"
+                               role="tab"
+                               aria-controls="home" aria-selected="true">За теб</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#profile"
+                               role="tab"
+                               aria-controls="profile" aria-selected="false">Моите поръчки</a>
+                        </li>
+                        {% if user.is_admin %}
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" id="message" data-toggle="tab" href="#message-tab"
+                                   role="tab"
+                                   aria-controls="profile" aria-selected="false">Съобщения</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#dashboard-tab"
+                                   role="tab"
+                                   aria-controls="profile" aria-selected="false">Табло</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Номер на профила</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ user.pk }}</p>
-                                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <p>ДЕЙСТВИЯ:</p>
+                    <a class="text-dark" href="{% url 'profile' %}">Данни за акаунта</a><br/>
+                    <a class="text-dark" href="{% url 'change_password' %}">Промяна на парола</a><br/>
+                    <a class="text-dark" href="{% url 'logout' %}">Излизане</a><br/>
+                    <br>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Номер на профила</b></label>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Име</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ user.name }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Имейл</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ user.email }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Последно влизане</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ user.last_login }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Създаден на</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ user.date_joined }}</p>
-                                </div>
+                            <div class="col-md-6">
+                                <p>{{ user.pk }}</p>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            {% if orders %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Име</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user.name }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Имейл</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Последно влизане</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user.last_login }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label><b>Създаден на</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user.date_joined }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        {% if orders %}
+                            {% for order in orders %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Номер на поръчка</b></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ order.order_number }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Статус на поръчка</b></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ order.status }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Общо</b></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ order.order_total | floatformat:2 }} лв.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Създадена на</b></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ order.created_at }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label><b>Адрес на доставка</b></label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{ order.address }}, {{ order.city }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <p>Все още нямате направени поръчки.</p>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="message-tab" role="tabpanel" aria-labelledby="message-tab">
+                        {% if messages %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Имейл</th>
+                                    <th scope="col">Тема</th>
+                                    <th scope="col">Съобщение</th>
+                                    <th scope="col">Изпратено на</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for message in messages %}
+                                    <tr>
+                                        <td>{{ message.email }}</td>
+                                        <td>{{ message.subject }}</td>
+                                        <td>{{ message.message | truncatewords:12 }}</td>
+                                        <td>{{ message.created_at }}</td>
+                                        <td>
+
+                                            <button type="button" class="btn site-btn p-1 pl-3 pr-3 mb-2 btn-block"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-{{ message.pk }}">Виж
+                                            </button>
+                                            <form action="{% url 'delete_message' message.pk %}" method="POST">
+                                                {% csrf_token %}
+                                                <button class="btn site-btn p-1 pl-3 pr-3 btn-block">
+                                                    Изтрий
+                                                </button>
+                                            </form>
+
+                                            <div class="modal fade" id="modal-{{ message.pk }}" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                Съдържание на съобщението</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ message.message }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn site-btn"
+                                                                    data-dismiss="modal">Затвори
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <p>There is no messages</p>
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p><b>Няма непрочетени съобщения</b></p>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="dashboard-tab" role="tabpanel" aria-labelledby="message-tab">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Име</th>
+                                <th scope="col">Адрес</th>
+                                <th scope="col">Общо</th>
+                                <th scope="col">Статус</th>
+                                <th scope="col">Действие</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if total_orders %}
                                 {% for order in orders %}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Номер на поръчка</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{ order.order_number }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Статус на поръчка</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{ order.status }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Общо</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{ order.order_total | floatformat:2 }} лв.</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Създадена на</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{ order.created_at }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Адрес на доставка</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>{{ order.address }}, {{ order.city }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
+                                    <tr>
+                                        <td>{{ order.order_number }}</td>
+                                        <td>{{ order.full_name }}</td>
+                                        <td>{{ order.address }}</td>
+                                        <td>{{ order.order_total }}</td>
+                                        <td>{{ order.status }}</td>
+                                        <td>
+
+                                            <button type="button" class="btn site-btn p-1 pl-3 pr-3 mb-2 btn-block"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-{{ order.pk }}">Промени статуса
+                                            </button>
+
+                                            <div class="modal fade" id="modal-{{ order.pk }}" tabindex="-1"
+                                                 role="dialog"
+                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                                Промени Статуса</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Номер на поръчка: {{ order.order_number }}
+                                                            <form action="{% url 'update_order' order.pk %}"
+                                                                  method="POST">
+                                                                {% csrf_token %}
+                                                                {% if my_form.is_valid %}
+                                                                    {{ my_form.as_p }}
+                                                                    <button type="submit">SUBMIT</button>
+                                                                {% endif %}
+                                                                {{ my_form.errors }}
+                                                            </form>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn site-btn"
+                                                                    data-dismiss="modal">Затвори
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                             {% else %}
-                                <p>Все още нямате направени поръчки.</p>
+                                <p>There is no messages</p>
                             {% endif %}
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path
 
-from online_store.orders.views import PlaceOrderView, OrderPreview, move_products, OrderCompleteView, WrongOrderInfoView
+from online_store.orders.views import PlaceOrderView, OrderPreview, move_products, OrderCompleteView, \
+    WrongOrderInfoView
 
 urlpatterns = (
     path('place_order/', PlaceOrderView.as_view(), name='place_order'),

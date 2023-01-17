@@ -1,0 +1,15 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show container d-flex align-items-center justify-content-center" id="message_div">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p class="mb-0"><strong>Грешка!</strong> {{ message }}</p>
+            </div>
+        {% elif message.tags == 'success' %}
+            <div class="message_container alert alert-info alert-dismissible fade show container d-flex align-items-center justify-content-center" id="message_div">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p class="mb-0"><strong>Информация!</strong> {{ message }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}

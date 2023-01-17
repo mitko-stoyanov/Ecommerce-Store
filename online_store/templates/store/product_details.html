@@ -2,16 +2,7 @@
 {% load static %}
 
 {% block page_content %}
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-info alert-dismissible fade show container d-flex align-items-center justify-content-center">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <p class="mb-0"><strong>Информация!</strong> {{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endif %}
-
+{% include 'includes/alerts.html' %}
     <!-- Shop Details Section Begin -->
     <section class="shop-details">
         <div class="product__details__pic">

@@ -1,10 +1,15 @@
 from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, UpdateView
 
 from online_store.accounts.models import AppUser
 from online_store.carts.models import Cart
+from online_store.contacts.models import Contact
+from online_store.helpers import BootstrapFormMixin
+from online_store.main.forms import ChangePasswordForm, ChangeOrderStatusForm
 from online_store.orders.models import Order, OrderProduct
 from online_store.store.models import Product
 
@@ -45,7 +50,7 @@ class AboutPageView(TemplateView):
         return context
 
 
-class ProfilePageView(TemplateView):
+class ProfilePageView(BootstrapFormMixin, TemplateView):
     template_name = 'profile/profile.html'
 
     def get_context_data(self, **kwargs):
@@ -53,7 +58,38 @@ class ProfilePageView(TemplateView):
         user = self.request.user
 
         orders = Order.objects.filter(user=user)
+        total_orders = Order.objects.all()
+        total_users = AppUser.objects.all().count()
+        users_messages = Contact.objects.all().order_by('-pk')
 
         context['user'] = user
         context['orders'] = orders
+        context['total_orders'] = total_orders
+        context['total_orders_count'] = total_orders.count()
+        context['total_users'] = total_users
+        context['messages'] = users_messages
         return context
+
+
+class EditProfileView(UpdateView):
+    model = AppUser
+    fields = ('username',)
+
+
+class ChangePasswordView(PasswordChangeView):
+    form_class = ChangePasswordForm
+    template_name = 'profile/change_password.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Паролата беше променена успешно.')
+        return super().form_valid(form)
+
+
+class ChangeOrderStatus(UpdateView):
+    model = Order
+    form_class = ChangeOrderStatusForm
+    template_name = 'profile/profile.html'
+    success_url = reverse_lazy('profile')
+    context_object_name = 'my_form'
+

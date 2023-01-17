@@ -31,6 +31,7 @@
     <div class="loader"></div>
 </div>
 
+
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
@@ -53,6 +54,8 @@
             <a href="{% url 'login' %}">Логване</a>
         {% else %}
             <p>Влезли сте в системата като: {{ user.email }}</p>
+            <a href="{% url 'profile' %}">Профил</a>
+            <a href="{% url 'logout' %}">Излизане</a>
         {% endif %}
     </div>
 </div>
@@ -138,9 +141,7 @@
 <!-- Header Section End -->
 
 {% block page_content %}
-    <h1>
-        This is page content
-    </h1>
+
 {% endblock %}
 
 
@@ -229,6 +230,17 @@
 <script src="{% static 'js/mixitup.min.js' %}"></script>
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+
+<script>
+    let message_obj = document.getElementById("message_div");
+    if (message_obj != null) {
+        setTimeout(() => {
+            $("#message_div").fadeOut(1100, function () {
+                $(this).remove();
+            });
+        }, 5000);
+    }
+</script>
 </body>
 
 </html>

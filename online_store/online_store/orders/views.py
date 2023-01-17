@@ -4,7 +4,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, DeleteView
+from django.views.generic import CreateView, TemplateView, DeleteView, UpdateView
 
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
@@ -125,3 +125,6 @@ class OrderCompleteView(TemplateView):
 class WrongOrderInfoView(DeleteView):
     model = Order
     success_url = reverse_lazy('cart_page')
+
+
+
