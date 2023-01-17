@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_content %}
-{% include 'includes/alerts.html' %}
+    {% include 'includes/alerts.html' %}
     <!-- Shop Details Section Begin -->
     <section class="shop-details">
         <div class="product__details__pic">
@@ -18,6 +18,7 @@
                     </div>
                 </div>
                 <div class="row">
+
                     <div class="col-lg-3 col-md-3">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
@@ -27,21 +28,16 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
-                                    <div class="product__thumb__pic set-bg"
-                                         data-setbg="{{ product.image.url }}">
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
-                                    <div class="product__thumb__pic set-bg"
-                                         data-setbg="{% static 'img/shop-details/thumb-3.png' %}">
-                                    </div>
-                                </a>
-                            </li>
-
+                            {% for product_image in product_gallery %}
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-{{ product_image.pk }}"
+                                       role="tab">
+                                        <div class="product__thumb__pic set-bg"
+                                             data-setbg="{{ product_image.image.url }}">
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="col-lg-6 col-md-9">
@@ -51,16 +47,13 @@
                                     <img src="{{ product.image.url }}" alt="">
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{% static 'img/shop-details/product-big-3.png' %}" alt="">
+                            {% for product_image in product_gallery %}
+                                <div class="tab-pane" id="tabs-{{ product_image.pk }}" role="tabpanel">
+                                    <div class="product__details__pic__item">
+                                        <img src="{{ product_image.image.url }}" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="product__details__pic__item">
-                                    <img src="{% static 'img/shop-details/product-big.png' %}" alt="">
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

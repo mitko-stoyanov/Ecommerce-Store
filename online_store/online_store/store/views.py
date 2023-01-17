@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
 
-from online_store.store.models import Product, Category
+from online_store.store.models import Product, Category, ProductGallery
 
 
 class ShowDetails(DetailView):
@@ -15,8 +15,10 @@ class ShowDetails(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ShowDetails, self).get_context_data(**kwargs)
         related_products = Product.objects.filter(category=self.get_object().category).exclude(pk=self.get_object().pk)
+        product_gallery = ProductGallery.objects.filter(product_id=self.object.id)
         context['category'] = self.get_object().category
         context['related_products'] = related_products
+        context['product_gallery'] = product_gallery
         return context
 
 

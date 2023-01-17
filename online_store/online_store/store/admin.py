@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from online_store.store.models import Category, Product, Variation
+from online_store.store.models import Category, Product, Variation, ProductGallery
+import admin_thumbnails
+
+
+@admin_thumbnails.thumbnail('image')
+class ProductGalleryInline(admin.TabularInline):
+    model = ProductGallery
+    extra = 1
 
 
 @admin.register(Category)
@@ -24,7 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     }
 
     list_display = ('product_name', 'price', 'stock', 'category', 'modified_date', 'is_available')
-    inlines = [VariationInline]
+    inlines = [ProductGalleryInline, VariationInline]
 
 
 @admin.register(Variation)
@@ -32,3 +39,8 @@ class VariationAdmin(admin.ModelAdmin):
     list_display = ('product', 'variation_category', 'variation_value', 'is_active')
     list_editable = ('is_active',)
     list_filter = ('product',)
+
+
+@admin.register(ProductGallery)
+class ProductGalleryAdmin(admin.ModelAdmin):
+    pass

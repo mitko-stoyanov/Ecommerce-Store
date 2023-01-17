@@ -120,3 +120,21 @@ class Variation(models.Model):
         return self.variation_value
 
 
+class ProductGallery(models.Model):
+    product = models.ForeignKey(
+        Product,
+        default=None,
+        on_delete=models.CASCADE,
+    )
+
+    image = models.ImageField(
+        upload_to='store/products',
+        max_length=255,
+    )
+
+    def __str__(self):
+        return self.product.product_name
+
+    class Meta:
+        verbose_name_plural = 'Product Gallery'
+
