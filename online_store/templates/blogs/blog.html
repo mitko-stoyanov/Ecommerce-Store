@@ -46,7 +46,7 @@
                                         <span><img src="{% static 'img/icon/calendar.png' %}"
                                                    alt="">{{ blog.added_on }}</span>
                                         <h5>{{ blog.title }}</h5>
-                                        <a href="#">Прочети повече</a>
+                                        <a href="{% url 'blog_details' blog.pk %}">Прочети повече</a>
                                     </div>
                                 </div>
                             </div>

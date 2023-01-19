@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView
 
 from online_store.accounts.models import AppUser
+from online_store.blogs.models import Blog
 from online_store.carts.models import Cart
 from online_store.contacts.models import Contact
 from online_store.helpers import BootstrapFormMixin
@@ -29,6 +30,9 @@ class HomePageView(SuccessMessageMixin, TemplateView):
             pass
 
         new_products = Product.objects.all().filter(is_available=True).order_by('-id')[:4]
+        last_blogs = Blog.objects.all()[:3]
+
+        context['last_blogs'] = last_blogs
         context['new_products'] = new_products
         return context
 
@@ -62,6 +66,7 @@ class ProfilePageView(BootstrapFormMixin, TemplateView):
         total_users = AppUser.objects.all()
         users_messages = Contact.objects.all().order_by('-pk')
         products_count = Product.objects.all().count()
+        blogs_count = Blog.objects.all()
 
         context['user'] = user
         context['orders'] = orders
@@ -70,6 +75,8 @@ class ProfilePageView(BootstrapFormMixin, TemplateView):
         context['total_orders_count'] = total_orders.count()
         context['total_users'] = total_users
         context['total_users_count'] = total_users.count()
+        context['total_blogs'] = blogs_count
+        context['total_blogs_count'] = blogs_count.count()
         context['messages'] = users_messages
         return context
 

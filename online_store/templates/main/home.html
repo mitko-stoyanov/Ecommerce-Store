@@ -194,36 +194,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="{% static 'img/blog/blog-1.jpg' %}"></div>
-                        <div class="blog__item__text">
-                            <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> 2 Януари 2023</span>
-                            <h5>What Curling Irons Are The Best Ones</h5>
-                            <a href="#">Прочети повече</a>
+                {% for blog in last_blogs %}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic set-bg" data-setbg="{{ blog.image.url }}"></div>
+                            <div class="blog__item__text">
+                                <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> {{ blog.added_on }}</span>
+                                <h5>{{ blog.title }}</h5>
+                                <a href="{% url 'blog_details' blog.pk %}">Прочети повече</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="{% static 'img/blog/blog-2.jpg' %}"></div>
-                        <div class="blog__item__text">
-                            <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> 12 Януари 2023</span>
-                            <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Прочети повече</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="{% static 'img/blog/blog-3.jpg' %}"></div>
-                        <div class="blog__item__text">
-                            <span><img src="{% static 'img/icon/calendar.png' %}" alt=""> 8 Януари 2023</span>
-                            <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Прочети повече</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

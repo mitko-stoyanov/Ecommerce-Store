@@ -18,14 +18,12 @@ class Blog(models.Model):
         upload_to='photos/blogs',
     )
 
-    description = models.TextField(
-        max_length=1200,
-    )
+    description = models.TextField()
 
     added_on = models.DateField(
         auto_now_add=True,
     )
 
-    updated_on = models.DateTimeField(
+    updated_on = models.DateField(
         auto_now=True,
     )
