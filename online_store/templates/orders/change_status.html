@@ -27,8 +27,8 @@
                              alt=""/>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex justify-content-center align-items-center">
-                    <h2>Промяна на парола</h2>
+                <div class="col-md-8 d-flex justify-content-center align-items-center">
+                    <h2>Промяна на статус на поръчка #{{ object.order_number }}. Текущ статус: {{ object.status }}</h2>
                 </div>
             </div>
             <div class="row">
@@ -42,34 +42,18 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <form action="{% url 'change_password' %}" method="POST">
+                    <br>
+                    <form action="{% url 'update_order' object.pk %}" method="POST">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Текуща парола</label>
-                            {{ form.old_password }}
-                            <small id="emailHelp" class="form-text text-muted">Напишете паролата, с която влизате в
-                                сайта.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Нова парола</label>
-                            {{ form.new_password1 }}
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Потвърди парола</label>
-                            {{ form.new_password2 }}
-                        </div>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <h5 class="d-flex p-2 bd-highlight">Избери статус: </h5>
+                        <div class="form-group">
+                            {{ form.status }}
+                        </div>
                         <br>
-                        {% if form.errors %}
-                            {% for field in form %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-danger">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        {% endif %}
+                        <br>
+                        <button type="submit" class="site-btn">Промени</button>
+                        <br>
                     </form>
                 </div>
             </div>

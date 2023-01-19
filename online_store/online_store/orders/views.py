@@ -6,10 +6,14 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, DeleteView, UpdateView
 
+from online_store.accounts.views import send_email
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
 from online_store.orders.models import Order, OrderProduct
 from online_store.store.models import Product
+
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 def make_order_num():
@@ -127,4 +131,12 @@ class WrongOrderInfoView(DeleteView):
     success_url = reverse_lazy('cart_page')
 
 
-
+@receiver(pre_save, sender=Order)
+def my_callback(sender, instance, **kwargs):
+    try:
+        old_instance = Order.objects.get(pk=instance.pk)
+    except Order.DoesNotExist:
+        pass
+    else:
+        if old_instance.status != instance.status:
+            print('status was changed')

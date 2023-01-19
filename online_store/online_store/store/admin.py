@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from online_store.store.models import Category, Product, Variation, ProductGallery
+from online_store.store.models import Category, Product, Variation, ProductGallery, WishList
 import admin_thumbnails
 
 
@@ -44,3 +44,9 @@ class VariationAdmin(admin.ModelAdmin):
 @admin.register(ProductGallery)
 class ProductGalleryAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(WishList)
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'product', 'added_at')
+    list_filter = ('owner',)

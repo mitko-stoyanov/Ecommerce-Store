@@ -16,6 +16,8 @@ from django.views.generic import CreateView, TemplateView, FormView
 from online_store.accounts.forms import UserRegistrationForm, UserLoginForm, ForgotPasswordForm, ResetPasswordForm
 from online_store.accounts.models import AppUser
 from online_store.accounts.tokens import token_generator
+from online_store.carts.models import Cart
+from online_store.store.models import WishList
 
 
 def send_email(request, user, subject_value, path):
@@ -54,7 +56,14 @@ class UserRegistrationView(SuccessMessageMixin, CreateView):
         to_email = user.email
         send_email = EmailMessage(subject, message, to=[to_email])
         send_email.send()
-        return super().form_valid(form)
+
+        response = super().form_valid(form)
+
+        cart = Cart()
+        cart.owner = self.object
+        cart.save()
+
+        return response
 
 
 class UserLoginView(LoginView):

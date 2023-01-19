@@ -1,10 +1,12 @@
 from itertools import chain
 
+from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView
 
-from online_store.store.models import Product, Category, ProductGallery
+from online_store.store.models import Product, Category, ProductGallery, WishList
 
 
 class ShowDetails(DetailView):
@@ -55,3 +57,39 @@ class SearchPageView(StorePageView):
                 products = Product.objects.order_by('-created_date').filter(
                     Q(description__icontains=keyword) | Q(product_name__icontains=keyword)).filter(is_available=True)
                 return products
+
+
+class WishListView(ListView):
+    model = WishList
+    template_name = 'store/wish_list.html'
+    context_object_name = 'wish_products'
+
+    def get_queryset(self):
+        wish_list = WishList.objects.filter(owner=self.request.user)
+        wish_products = [w.product for w in wish_list]
+        return wish_products
+
+
+def add_to_wish(request, pk):
+    product = Product.objects.get(pk=pk)
+
+    wish_list = WishList.objects.filter(owner=request.user)
+    products = [w.product for w in wish_list]
+    if product not in products:
+        WishList.objects.create(
+            owner=request.user,
+            product=product
+        )
+        messages.success(request, f'Успешно добавихте {product.product_name} към вашия списък с желани артикули.')
+    else:
+        messages.error(request, 'Продуктът вече е добавен в списъка с желани артикули.')
+
+    return redirect('store')
+
+
+def delete_from_wish(request, pk):
+    wish_list = WishList.objects.filter(owner=request.user, product=Product.objects.get(pk=pk))
+    wish_list.delete()
+
+    return redirect('store')
+

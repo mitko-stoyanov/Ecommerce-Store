@@ -1,0 +1,97 @@
+{% extends 'includes/navbar.html' %}
+{% load static %}
+
+{% block page_content %}
+    {% include 'includes/alerts.html' %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        {% if 'search' in request.path %}
+                            <h4>Търси</h4>
+                        {% else %}
+                            <h4>Магазин</h4>
+                        {% endif %}
+                        <div class="breadcrumb__links">
+
+                            <a href="{% url 'home' %}">Начало</a>
+                            <span>Любими</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shop Section Begin -->
+    <section class="shop">
+        <div class="container">
+            <br>
+            <br>
+            <h2 class="text-center">Любими продукти</h2>
+            <br>
+            <br>
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-9">
+                    <div class="row">
+                        {% if wish_products %}
+                            {% for product in wish_products %}
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
+                                            <ul class="product__hover">
+                                                <li><a href="{% url 'remove_from_wish' product.pk %}"><img
+                                                        src="{% static 'img/icon/close.jpg' %}" alt=""></a>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6>{{ product.product_name }}</h6>
+                                            <a href="{% url 'product_details' product.pk %}" class="add-cart">Виж
+                                                продукт</a>
+                                            <div class="rating">
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <h5>{{ product.price | floatformat:2 }} лв.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+
+                            <h3 class="centered  mt-4 mb-5">Все още няма добавени продукти в любими.</h3>
+                            <div class="continue__btn align-items-center">
+                                <a href="{% url 'store' %}">Продължете с пазаруването</a>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if not 'search' in request.path %}
+                                {% if products %}
+                                    <div class="product__pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{ page_obj.previous_page_number }}">←</a>
+                                        {% endif %}
+                                        <b>Страница {{ page_obj.number }} от {{ page_obj.paginator.num_pages }}.</b>
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}">→</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Section End -->
+{% endblock %}

@@ -42,12 +42,7 @@ def add_to_cart(request, pk):
             except:
                 pass
 
-    try:
-        cart = Cart.objects.get(owner__exact=request.user)
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(
-            owner=request.user,
-        )
+    cart = Cart.objects.get(owner__exact=request.user)
 
     is_cart_item_exists = CartItem.objects.filter(product=product, cart=cart).exists()
 

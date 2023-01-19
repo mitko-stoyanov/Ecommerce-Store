@@ -194,7 +194,6 @@
                                                     Изтрий
                                                 </button>
                                             </form>
-
                                             <div class="modal fade" id="modal-{{ message.pk }}" tabindex="-1"
                                                  role="dialog"
                                                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -222,7 +221,6 @@
                                         </td>
                                     </tr>
                                 {% endfor %}
-                                <p>There is no messages</p>
                                 </tbody>
                             </table>
                         {% else %}
@@ -230,77 +228,132 @@
                         {% endif %}
                     </div>
                     <div class="tab-pane fade" id="dashboard-tab" role="tabpanel" aria-labelledby="message-tab">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Име</th>
-                                <th scope="col">Адрес</th>
-                                <th scope="col">Общо</th>
-                                <th scope="col">Статус</th>
-                                <th scope="col">Действие</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% if total_orders %}
+                        <article class="card">
+                            <header class="card-header">
+                                <strong class="d-inline-block mr-3">Данни за сайта:</strong>
+                            </header>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card" style="text-align:center; height: 7vh">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Общо поръчки: {{ total_orders_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card" style="text-align:center; height: 7vh">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Общо
+                                                    потребители: {{ total_orders_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- row.// -->
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card" style="text-align:center; height: 7vh">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Общо продукти: {{ products_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card" style="text-align:center; height: 7vh">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Общо
+                                                    потребители: {{ total_orders_count }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- row.// -->
+                            </div> <!-- card-body .// -->
+
+                        </article> <!-- order-group.// -->
+
+                        {% if total_orders %}
+                            <br>
+                            <h3 class="text-center">Всички поръчки</h3>
+                            <br>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Име</th>
+                                    <th scope="col">Адрес</th>
+                                    <th scope="col">Общо</th>
+                                    <th scope="col">Статус</th>
+                                    <th scope="col">Действие</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
                                 {% for order in orders %}
                                     <tr>
                                         <td>{{ order.order_number }}</td>
                                         <td>{{ order.full_name }}</td>
                                         <td>{{ order.address }}</td>
-                                        <td>{{ order.order_total }}</td>
+                                        <td>{{ order.order_total | floatformat:2 }} лв.</td>
                                         <td>{{ order.status }}</td>
                                         <td>
-
-                                            <button type="button" class="btn site-btn p-1 pl-3 pr-3 mb-2 btn-block"
-                                                    data-toggle="modal"
-                                                    data-target="#modal-{{ order.pk }}">Промени статуса
-                                            </button>
-
-                                            <div class="modal fade" id="modal-{{ order.pk }}" tabindex="-1"
-                                                 role="dialog"
-                                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalCenterTitle">
-                                                                Промени Статуса</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Номер на поръчка: {{ order.order_number }}
-                                                            <form action="{% url 'update_order' order.pk %}"
-                                                                  method="POST">
-                                                                {% csrf_token %}
-                                                                {% if my_form.is_valid %}
-                                                                    {{ my_form.as_p }}
-                                                                    <button type="submit">SUBMIT</button>
-                                                                {% endif %}
-                                                                {{ my_form.errors }}
-                                                            </form>
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn site-btn"
-                                                                    data-dismiss="modal">Затвори
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <a class="btn site-btn p-1 pl-3 pr-3 btn-block"
+                                               href="{% url 'update_order' order.pk %}">Промени статуса</a>
+                                            <a class="btn site-btn p-1 pl-3 pr-3 btn-block"
+                                               href="{% url 'update_order' order.pk %}">Изтрий</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
-                            {% else %}
-                                <p>There is no messages</p>
-                            {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
 
+
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>There is no messages</p>
+                        {% endif %}
+
+
+
+                        {% if total_users %}
+                            <br>
+                            <h3 class="text-center">Всички потребители</h3>
+                            <br>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Име</th>
+                                    <th scope="col">Имейл</th>
+                                    <th scope="col">Последно влизане</th>
+                                    <th scope="col">Създаден на</th>
+                                    <th scope="col">Активен</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for user in total_users %}
+                                    <tr>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.last_login }}</td>
+                                        <td>{{ user.date_joined }}</td>
+                                        <td>
+                                            {% if user.is_active == True %}
+                                                Да
+                                            {% else %}
+                                                Не
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p>There is no users</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

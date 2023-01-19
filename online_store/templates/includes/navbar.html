@@ -123,7 +123,9 @@
             <div class="col-lg-3 col-md-3">
                 {% if user.is_authenticated %}
                     <div class="header__nav__option">
-                        <a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                        {% if wish_list %}
+                            <a href="{% url 'wish_list' %}"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                        {% endif %}
                         {% if cart %}
                             <a href="{% url 'cart_page' %}"><img src="{% static 'img/icon/cart.png' %}" alt="">
                                 <span>{{ cart_count }}</span></a>

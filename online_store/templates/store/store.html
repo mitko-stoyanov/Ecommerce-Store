@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block page_content %}
+    {% include 'includes/alerts.html' %}
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
@@ -224,7 +225,7 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
                                             <ul class="product__hover">
-                                                <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
+                                                <li><a href="{% url 'add_to_wish' product.pk%}"><img src="{% static 'img/icon/heart.png' %}" alt=""></a>
                                                 </li>
                                                 <li><a href="#"><img src="{% static 'img/icon/search.png' %}"
                                                                      alt=""></a>

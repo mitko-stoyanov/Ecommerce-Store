@@ -125,7 +125,7 @@
 
                                 {% endif %}
                                 <div class="product__details__btns__option">
-                                    <a href="#"><i class="fa fa-heart"></i> добави в любими</a>
+                                    <a href="{% url 'add_to_wish' product.pk%}"><i class="fa fa-heart"></i> добави в любими</a>
                                     <a href="#"><i class="fa fa-exchange"></i> добави за сравнение</a>
                                 </div>
 

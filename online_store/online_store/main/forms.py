@@ -11,7 +11,3 @@ class ChangePasswordForm(BootstrapFormMixin, PasswordChangeForm):
         self._init_bootstrap_form_controls()
 
 
-class ChangeOrderStatusForm(forms.Form):
-    class Meta:
-        model = Order
-        fields = ('status',)

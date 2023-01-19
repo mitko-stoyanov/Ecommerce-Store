@@ -9,7 +9,7 @@ from online_store.accounts.models import AppUser
 from online_store.carts.models import Cart
 from online_store.contacts.models import Contact
 from online_store.helpers import BootstrapFormMixin
-from online_store.main.forms import ChangePasswordForm, ChangeOrderStatusForm
+from online_store.main.forms import ChangePasswordForm
 from online_store.orders.models import Order, OrderProduct
 from online_store.store.models import Product
 
@@ -57,16 +57,19 @@ class ProfilePageView(BootstrapFormMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
-        orders = Order.objects.filter(user=user)
+        orders = Order.objects.filter(user=user).order_by('-pk')
         total_orders = Order.objects.all()
-        total_users = AppUser.objects.all().count()
+        total_users = AppUser.objects.all()
         users_messages = Contact.objects.all().order_by('-pk')
+        products_count = Product.objects.all().count()
 
         context['user'] = user
         context['orders'] = orders
         context['total_orders'] = total_orders
+        context['products_count'] = products_count
         context['total_orders_count'] = total_orders.count()
         context['total_users'] = total_users
+        context['total_users_count'] = total_users.count()
         context['messages'] = users_messages
         return context
 
@@ -88,8 +91,7 @@ class ChangePasswordView(PasswordChangeView):
 
 class ChangeOrderStatus(UpdateView):
     model = Order
-    form_class = ChangeOrderStatusForm
-    template_name = 'profile/profile.html'
+    fields = ['status']
+    template_name = 'orders/change_status.html'
     success_url = reverse_lazy('profile')
-    context_object_name = 'my_form'
 

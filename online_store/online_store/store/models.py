@@ -3,6 +3,8 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 
+from online_store.accounts.models import AppUser
+
 
 class Category(models.Model):
     category_name = models.CharField(
@@ -138,3 +140,21 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name_plural = 'Product Gallery'
 
+
+class WishList(models.Model):
+    owner = models.ForeignKey(
+        AppUser,
+        on_delete=models.CASCADE
+    )
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+    )
+
+    added_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    def __str__(self):
+        return self.product.product_name
