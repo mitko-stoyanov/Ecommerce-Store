@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'online_store.carts',
     'online_store.orders',
     'online_store.contacts',
+    'online_store.blogs',
     'phonenumber_field',
 ]
 
