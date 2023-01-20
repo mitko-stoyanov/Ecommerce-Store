@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView
 
@@ -73,6 +72,7 @@ class ProfilePageView(BootstrapFormMixin, TemplateView):
         context['total_orders'] = total_orders
         context['products_count'] = products_count
         context['total_orders_count'] = total_orders.count()
+        print(total_orders.count())
         context['total_users'] = total_users
         context['total_users_count'] = total_users.count()
         context['total_blogs'] = blogs_count

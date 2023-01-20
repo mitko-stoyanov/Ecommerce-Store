@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, DeleteView
 
 from online_store.blogs.models import Blog
 
@@ -31,3 +32,8 @@ class BlogDetailView(DetailView):
             pass
 
         return context
+
+
+class DeleteBlogView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('profile')

@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'online_store.orders',
     'online_store.contacts',
     'online_store.blogs',
-    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -154,4 +153,4 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
-PASSWORD_RESET_TIMEOUT = config('PASSWORD_RESET_TIMEOUT')
+PASSWORD_RESET_TIMEOUT = config('PASSWORD_RESET_TIMEOUT', cast=int)

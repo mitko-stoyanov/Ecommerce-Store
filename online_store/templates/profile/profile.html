@@ -247,7 +247,7 @@
                                         <div class="card" style="text-align:center; height: 11vh">
                                             <div class="card-body">
                                                 <h5 class="card-title">Общо
-                                                    потребители: {{ total_orders_count }}</h5>
+                                                    потребители: {{ total_users_count }}</h5>
                                                 <a href="#users">Виж потребителите</a>
                                             </div>
                                         </div>
@@ -284,7 +284,7 @@
                                 <tbody>
 
 
-                                {% for order in orders %}
+                                {% for order in total_orders %}
                                     <tr>
                                         <td>{{ order.order_number }}</td>
                                         <td>{{ order.full_name }}</td>
@@ -292,10 +292,15 @@
                                         <td>{{ order.order_total | floatformat:2 }} лв.</td>
                                         <td>{{ order.status }}</td>
                                         <td>
-                                            <a class="btn site-btn p-1 pl-3 pr-3 btn-block"
+                                            <a class="btn site-btn p-1 pl-3 pr-3 btn-block mb-1"
                                                href="{% url 'update_order' order.pk %}">Промени статуса</a>
-                                            <a class="btn site-btn p-1 pl-3 pr-3 btn-block"
-                                               href="{% url 'update_order' order.pk %}">Изтрий</a>
+                                            <br>
+                                            <form action="{% url 'delete_order_profile' order.pk %}" method="POST">
+                                                {% csrf_token %}
+                                                <button class="btn site-btn p-1 pl-3 pr-3 btn-block">
+                                                    Изтрий
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -373,7 +378,7 @@
                                                     data-toggle="modal"
                                                     data-target="#modal-{{ blog.pk }}">Виж
                                             </button>
-                                            <form action="#" method="POST">
+                                            <form action="{% url 'delete_blog' blog.pk %}" method="POST">
                                                 {% csrf_token %}
                                                 <button class="btn site-btn p-1 pl-3 pr-3 btn-block">
                                                     Изтрий
