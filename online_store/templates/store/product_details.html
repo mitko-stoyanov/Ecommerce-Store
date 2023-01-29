@@ -86,7 +86,7 @@
                                             <h5 class="d-flex p-2 bd-highlight">Избери размер: </h5>
                                             <div class="form-group">
                                                 <select name="size" required>
-                                                    <option value="" disabled selected>No selection</option>
+                                                    <option value="" disabled selected>Не е избрано</option>
                                                     {% for i in product.variation_set.sizes %}
                                                         <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                                                     {% endfor %}
@@ -99,7 +99,7 @@
                                             <h5 class="d-flex p-2 bd-highlight">Избери цвят: </h5>
                                             <div class="form-group">
                                                 <select name="color" required>
-                                                    <option value="" disabled selected>No selection</option>
+                                                    <option value="" disabled selected>Не е избрано</option>
                                                     {% for i in product.variation_set.colors %}
                                                         <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                                                     {% endfor %}
@@ -125,19 +125,19 @@
 
                                 {% endif %}
                                 <div class="product__details__btns__option">
-                                    <a href="{% url 'add_to_wish' product.pk%}"><i class="fa fa-heart"></i> добави в любими</a>
-                                    <a href="#"><i class="fa fa-exchange"></i> добави за сравнение</a>
+                                    <a href="{% url 'add_to_wish' product.pk %}"><i class="fa fa-heart"></i> добави в
+                                        любими</a>
+{#                                    <a href="#"><i class="fa fa-exchange"></i> добави за сравнение</a>#}
                                 </div>
-
-
-                            </form>
-                            {% if form.errors %}
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <p> {{ error }} </p>
+                                {% if form.errors %}
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <p> {{ error }} </p>
+                                        {% endfor %}
                                     {% endfor %}
-                                {% endfor %}
-                            {% endif %}
+                                {% endif %}
+                            </form>
+
                             <div class="product__details__last__option pt-0">
                                 <ul class="pt-0">
                                     <li><span>Номер на обявата:</span> {{ product.pk }}</li>
@@ -243,7 +243,7 @@
                                 {#                                <span class="label">New</span>#}
                                 <ul class="product__hover">
                                     <li><a href="#"><img src="{% static 'img/icon/heart.png' %}" alt=""></a></li>
-                                    <li><a href="#"><img src="{% static 'img/icon/search.png' %}" alt=""></a></li>
+{#                                    <li><a href="#"><img src="{% static 'img/icon/search.png' %}" alt=""></a></li>#}
                                 </ul>
                             </div>
                             <div class="product__item__text">

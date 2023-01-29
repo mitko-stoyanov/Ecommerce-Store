@@ -59,7 +59,7 @@
                                         <a href="{% url 'blog_details' previous_blog.pk %}"
                                            class="blog__details__btns__item">
                                             <p><span class="arrow_left"></span> Предишна статия</p>
-                                            <h5>It S Classified How To Utilize Free Classified Ad Sites</h5>
+                                            <h5>{{ previous_blog.title }}</h5>
                                         </a>
                                     </div>
                                 {% endif %}
@@ -68,7 +68,7 @@
                                         <a href="{% url 'blog_details' next_blog.pk %}"
                                            class="blog__details__btns__item blog__details__btns__item--next">
                                             <p>Следваща статия <span class="arrow_right"></span></p>
-                                            <h5>Tips For Choosing The Perfect Gloss For Your Lips</h5>
+                                            <h5>{{ next_blog.title }}</h5>
                                         </a>
                                     </div>
                                 {% endif %}
