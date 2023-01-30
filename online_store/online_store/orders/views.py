@@ -10,11 +10,6 @@ from online_store.orders.models import Order, OrderProduct
 from online_store.orders.utils import make_order_num
 from online_store.store.models import Product
 
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-
-from django.core.mail import send_mail
-
 
 class PlaceOrderView(CreateView):
     form_class = OrderForm
@@ -57,8 +52,10 @@ class OrderPreview(TemplateView):
 
         if order_pk:
             current_order = Order.objects.get(pk=order_pk)
-            context['order'] = current_order
-            context['cart_items'] = cart_items
+            context = {
+                'order': current_order,
+                'cart_items': cart_items
+            }
         return context
 
 
@@ -110,35 +107,16 @@ class OrderCompleteView(TemplateView):
         order = Order.objects.get(pk=order_pk)
         ordered_products = OrderProduct.objects.filter(order=order, user=self.request.user)
 
-        context['order'] = order
-        context['ordered_products'] = ordered_products
-
+        context = {
+            'order': order,
+            'ordered_products': ordered_products
+        }
         return context
 
 
 class WrongOrderInfoView(DeleteView):
     model = Order
     success_url = reverse_lazy('cart_page')
-
-
-# @receiver(pre_save, sender=Order)
-# def my_callback(sender, instance, **kwargs):
-#     try:
-#         old_instance = Order.objects.get(pk=instance.pk)
-#     except Order.DoesNotExist:
-#         pass
-#     else:
-#         if old_instance.status != instance.status:
-#             message = render_to_string('orders/changed_status_email.html',
-#                                        {
-#                                            'order': instance,
-#                                        })
-#             send_mail(
-#                 'Статусът е променен',
-#                 message,
-#                 None,
-#                 [old_instance.user.email],
-#             )
 
 
 class DeleteOrderView(DeleteView):

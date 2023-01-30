@@ -1,10 +1,7 @@
-from itertools import chain
-
 from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView
+from django.shortcuts import redirect
+from django.views.generic import ListView, DetailView
 
 from online_store.store.models import Product, Category, ProductGallery, WishList
 

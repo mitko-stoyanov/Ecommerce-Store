@@ -1,6 +1,8 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView
 
@@ -8,9 +10,8 @@ from online_store.accounts.models import AppUser
 from online_store.blogs.models import Blog
 from online_store.carts.models import Cart
 from online_store.contacts.models import Contact
-from online_store.helpers import BootstrapFormMixin
 from online_store.main.forms import ChangePasswordForm
-from online_store.orders.models import Order, OrderProduct
+from online_store.orders.models import Order
 from online_store.store.models import Product
 
 
@@ -31,8 +32,10 @@ class HomePageView(SuccessMessageMixin, TemplateView):
         new_products = Product.objects.all().filter(is_available=True).order_by('-id')[:4]
         last_blogs = Blog.objects.all()[:3]
 
-        context['last_blogs'] = last_blogs
-        context['new_products'] = new_products
+        context = {
+            'last_blogs': last_blogs,
+            'new_products': new_products
+        }
         return context
 
 
@@ -53,8 +56,9 @@ class AboutPageView(TemplateView):
         return context
 
 
-class ProfilePageView(BootstrapFormMixin, TemplateView):
+class ProfilePageView(LoginRequiredMixin, TemplateView):
     template_name = 'profile/profile.html'
+    login_url = reverse_lazy('login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,19 +69,21 @@ class ProfilePageView(BootstrapFormMixin, TemplateView):
         total_users = AppUser.objects.all()
         users_messages = Contact.objects.all().order_by('-pk')
         products_count = Product.objects.all().count()
-        blogs_count = Blog.objects.all()
+        blogs = Blog.objects.all()
 
-        context['user'] = user
-        context['orders'] = orders
-        context['total_orders'] = total_orders
-        context['products_count'] = products_count
-        context['total_orders_count'] = total_orders.count()
-        print(total_orders.count())
-        context['total_users'] = total_users
-        context['total_users_count'] = total_users.count()
-        context['total_blogs'] = blogs_count
-        context['total_blogs_count'] = blogs_count.count()
-        context['messages'] = users_messages
+        context = {
+            'user': user,
+            'orders': orders,
+            'total_orders': total_orders,
+            'total_orders_count': total_orders.count(),
+            'products_count': products_count,
+            'total_users': total_users,
+            'total_users_count': total_users.count(),
+            'total_blogs': blogs,
+            'total_blogs_count': blogs.count(),
+            'messages': users_messages
+        }
+
         return context
 
 
@@ -86,19 +92,28 @@ class EditProfileView(UpdateView):
     fields = ('username',)
 
 
-class ChangePasswordView(PasswordChangeView):
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     form_class = ChangePasswordForm
     template_name = 'profile/change_password.html'
     success_url = reverse_lazy('home')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         messages.success(self.request, 'Паролата беше променена успешно.')
         return super().form_valid(form)
 
 
-class ChangeOrderStatus(UpdateView):
+class ChangeOrderStatus(LoginRequiredMixin, UpdateView):
     model = Order
     fields = ['status']
     template_name = 'orders/change_status.html'
     success_url = reverse_lazy('profile')
+    login_url = reverse_lazy('login')
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            messages.error(request,
+                           'Тази страница е достъпна само от администратори. '
+                           'Ако мислите, че сме допуснали грешка - свържете се с нас')
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
