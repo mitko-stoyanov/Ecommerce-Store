@@ -1,29 +1,19 @@
-import datetime
-
 from django.core.mail import EmailMessage
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, DeleteView, UpdateView
+from django.views.generic import CreateView, TemplateView, DeleteView
 
-from online_store.accounts.views import send_email
 from online_store.carts.models import CartItem
 from online_store.orders.forms import OrderForm
 from online_store.orders.models import Order, OrderProduct
+from online_store.orders.utils import make_order_num
 from online_store.store.models import Product
 
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-
-def make_order_num():
-    year = int(datetime.date.today().strftime('%Y'))
-    date = int(datetime.date.today().strftime('%d'))
-    month = int(datetime.date.today().strftime('%m'))
-    result = datetime.date(year, month, date)
-    current_date = result.strftime('%Y%m%d')
-
-    return current_date
+from django.core.mail import send_mail
 
 
 class PlaceOrderView(CreateView):
@@ -131,15 +121,24 @@ class WrongOrderInfoView(DeleteView):
     success_url = reverse_lazy('cart_page')
 
 
-@receiver(pre_save, sender=Order)
-def my_callback(sender, instance, **kwargs):
-    try:
-        old_instance = Order.objects.get(pk=instance.pk)
-    except Order.DoesNotExist:
-        pass
-    else:
-        if old_instance.status != instance.status:
-            print('status was changed')
+# @receiver(pre_save, sender=Order)
+# def my_callback(sender, instance, **kwargs):
+#     try:
+#         old_instance = Order.objects.get(pk=instance.pk)
+#     except Order.DoesNotExist:
+#         pass
+#     else:
+#         if old_instance.status != instance.status:
+#             message = render_to_string('orders/changed_status_email.html',
+#                                        {
+#                                            'order': instance,
+#                                        })
+#             send_mail(
+#                 'Статусът е променен',
+#                 message,
+#                 None,
+#                 [old_instance.user.email],
+#             )
 
 
 class DeleteOrderView(DeleteView):

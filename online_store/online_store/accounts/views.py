@@ -4,20 +4,18 @@ from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views import View
-from django.views.generic import CreateView, TemplateView, FormView
+from django.views.generic import CreateView, FormView
 
 from online_store.accounts.forms import UserRegistrationForm, UserLoginForm, ForgotPasswordForm, ResetPasswordForm
 from online_store.accounts.models import AppUser
 from online_store.accounts.tokens import token_generator
 from online_store.carts.models import Cart
-from online_store.store.models import WishList
 
 
 def send_email(request, user, subject_value, path):
@@ -44,18 +42,9 @@ class UserRegistrationView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
 
-        current_site = get_current_site(self.request)
         subject = 'Активирай своя акаунт в MaleFashion'
-        message = render_to_string('authentication/activation_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': token_generator.make_token(user),
-        })
-
-        to_email = user.email
-        send_email = EmailMessage(subject, message, to=[to_email])
-        send_email.send()
+        path = 'authentication/activation_email.html'
+        send_email(self.request, user, subject, path)
 
         response = super().form_valid(form)
 
