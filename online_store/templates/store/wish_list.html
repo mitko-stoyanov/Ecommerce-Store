@@ -43,8 +43,16 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="{{ product.image.url }}">
                                             <ul class="product__hover">
-                                                <li><a href="{% url 'remove_from_wish' product.pk %}"><img
-                                                        src="{% static 'img/icon/close.jpg' %}" alt=""></a>
+                                                <li>
+                                                    <form action="{% url 'remove_from_wish' product.pk %}"
+                                                          method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit"
+                                                                style="background-color: transparent; border: none"><img
+                                                                src="{% static 'img/icon/close.jpg' %}" alt="">
+                                                        </button>
+                                                    </form>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">

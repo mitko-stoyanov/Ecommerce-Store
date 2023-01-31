@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.db.models import Q
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, DeleteView
 
 from online_store.store.models import Product, Category, ProductGallery, WishList
 
@@ -84,9 +85,9 @@ def add_to_wish(request, pk):
     return redirect('store')
 
 
-def delete_from_wish(request, pk):
-    wish_list = WishList.objects.filter(owner=request.user, product=Product.objects.get(pk=pk))
-    wish_list.delete()
+class DeleteFromWishView(DeleteView):
+    model = WishList
+    success_url = reverse_lazy('store')
 
-    return redirect('store')
-
+    def get_object(self, queryset=None):
+        return get_object_or_404(self.model, owner=self.request.user, product=Product.objects.get(pk=self.kwargs['pk']))
