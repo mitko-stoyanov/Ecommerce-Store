@@ -1,6 +1,4 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.hashers import make_password
-from django.core.mail import send_mail
 
 
 class AppUsersManager(BaseUserManager):
@@ -27,12 +25,3 @@ class AppUsersManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
-
-    # def email_user(self, *args, **kwargs):
-    #     send_mail(
-    #         '{}'.format(args[0]),
-    #         '{}'.format(args[1]),
-    #         '{}'.format(args[2]),
-    #         [self.email],
-    #         fail_silently=False,
-    #     )
