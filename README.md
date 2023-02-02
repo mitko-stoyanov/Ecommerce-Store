@@ -45,7 +45,7 @@ Video demo: https://youtu.be/wGRGor7NuHI
 
 `Confirmation Email`
 
-![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/account_activation.png)
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/profile_activaiton_email.png)
 
 `Shop`
 ![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/shop.png)
@@ -58,4 +58,4 @@ Video demo: https://youtu.be/wGRGor7NuHI
 
 `Order Email`
 
-![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/register_activation.png)
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/order_successful_email.png)
