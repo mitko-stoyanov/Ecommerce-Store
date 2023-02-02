@@ -33,4 +33,27 @@ Now you can run the project with this command
 python manage.py runserver
 ```
 
-**Note:** Before running the project, you should create a .env file inside the project directory and copy the template from .env-sample. Then fill in all of the needed information
+**Note:** Before running the project, you should create a .env file inside the project directory and copy the template from .env-sample. Then fill in all of the needed information. Then migrate all of the migrations to the database.
+
+---
+## Screenshots and demo
+
+Video demo: https://youtu.be/wGRGor7NuHI
+
+`User Registration`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/register.png)
+
+`Confirmation Email`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/order_successful.png)
+
+`Shop`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/shop.png)
+
+`Cart`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/cart.png)
+
+`Order Successful`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/order_successful.png)
+
+`Order Email`
+![Image](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/register_activation.png)
