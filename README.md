@@ -34,5 +34,3 @@ python manage.py runserver
 ```
 
 **Note:** Before running the project, you should create a .env file inside the project directory and copy the template from .env-sample. Then fill in all of the needed information
-
-![dsa](https://github.com/mitko-stoyanov/Ecommerce-Store/blob/main/project%20screenshots/account_activation.png)
