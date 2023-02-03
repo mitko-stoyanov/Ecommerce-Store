@@ -5,7 +5,7 @@ from online_store.accounts.managers import AppUsersManager
 
 
 class AppUser(AbstractBaseUser):
-    name = models.CharField(max_length=25, verbose_name='')
+    name = models.CharField(max_length=25)
     email = models.EmailField(max_length=100, unique=True,)
     date_joined = models.DateTimeField(auto_now_add=True,)
     is_active = models.BooleanField(default=False,)

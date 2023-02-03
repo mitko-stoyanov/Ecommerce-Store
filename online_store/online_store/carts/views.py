@@ -1,11 +1,13 @@
-from django.contrib import messages
-from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, TemplateView
-
+from django.views.generic import ListView
 from online_store.carts.models import Cart, CartItem
 from online_store.store.models import Product, Variation
+
+
+def find_cart_products(self):
+    user_cart = self.request.user.cart
+    products = [p for p in CartItem.objects.all() if p.cart == user_cart]
+    return products
 
 
 class CartListView(ListView):
@@ -14,14 +16,14 @@ class CartListView(ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
+        products = find_cart_products(self)
         return products
 
     def get_context_data(self, **kwargs):
         total_without_disc = 0
-        products = [p for p in CartItem.objects.all() if p.cart == self.request.user.cart]
+        products = find_cart_products(self)
         total_without_disc = sum([(c.product.price * c.quantity) for c in products])
-        context = super(CartListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['total_without_disc'] = total_without_disc
         return context
 
@@ -93,14 +95,11 @@ def remove_cart(request, product_id, cart_item_id):
     cart = Cart.objects.get(owner__exact=request.user)
     product = get_object_or_404(Product, id=product_id)
 
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart, id=cart_item_id)
-        if cart_item.quantity > 1:
-            cart_item.quantity -= 1
-            cart_item.save()
-        else:
-            cart_item.delete()
-    except:
-        pass
+    cart_item = get_object_or_404(CartItem, product=product, cart=cart, id=cart_item_id)
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
 
     return redirect('cart_page')

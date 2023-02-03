@@ -8,7 +8,6 @@ from django.views.generic import TemplateView, UpdateView
 
 from online_store.accounts.models import AppUser
 from online_store.blogs.models import Blog
-from online_store.carts.models import Cart
 from online_store.contacts.models import Contact
 from online_store.main.forms import ChangePasswordForm
 from online_store.orders.models import Order
@@ -20,14 +19,6 @@ class HomePageView(SuccessMessageMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        try:
-            user = self.request.user
-            if user and not Cart.objects.filter(owner__exact=user).exists():
-                messages.info(self.request,
-                              'Количката ще се появи в горния десен ъгъл след като добавите първия си продукт.')
-        except:
-            pass
 
         new_products = Product.objects.all().filter(is_available=True).order_by('-id')[:4]
         last_blogs = Blog.objects.all()[:3]
